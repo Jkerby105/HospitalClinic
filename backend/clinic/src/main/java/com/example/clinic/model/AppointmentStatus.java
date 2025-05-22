@@ -1,9 +1,8 @@
 package com.example.clinic.model;
 
 public enum AppointmentStatus {
-    SCHEDULED,
     CANCELLED,
-    RESCHEDULED,
+    PENDING,
     COMPLETED,
     NO_SHOW
 }

@@ -2,8 +2,8 @@ package com.example.clinic.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Data
@@ -23,11 +23,19 @@ public class Appointment {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @Column(nullable = false)
-    private LocalDate date;
+    @ManyToOne
+    @JoinColumn(name = "patientDriver_id")
+    private PatientDriver patientDriver;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
 
     @Column(nullable = false)
-    private LocalTime timeSlot;
+    private LocalDateTime pickupDateTime;
+
+    @Column(nullable = false)
+    private LocalDateTime endTime = pickupDateTime.plusMinutes(30);
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

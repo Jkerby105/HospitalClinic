@@ -16,7 +16,6 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false)
     private String make;
 
@@ -25,4 +24,15 @@ public class Vehicle {
 
     @Column(nullable = false, unique = true)
     private String licensePlate;
+
+    @Column(nullable = false)
+    private String ImageName;
+
+    @Column(nullable = false)
+    private String ImageType;
+
+    @Column(nullable = false)
+    @Lob
+    private byte[] ImageData;
+
 }
