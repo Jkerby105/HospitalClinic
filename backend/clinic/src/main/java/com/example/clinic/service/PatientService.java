@@ -55,4 +55,10 @@ public class PatientService {
         }
     }
 
+    // ill get to it later
+    public Object getAppointments(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAppointments'");
+    }
+
 }

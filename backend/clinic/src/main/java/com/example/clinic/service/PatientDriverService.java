@@ -23,17 +23,19 @@ public class PatientDriverService {
 
 
     // Get driver by ID
+
     public Optional<PatientDriver> getDriverById(Long id) {
         return patientDriverRepo.findById(id);
     }
-
-    public Optional<Appointment> getAppointmentById(Long id) {
-        return appointmentRepo.findById(id);
-    }
-
-    public List<Appointment> test() {
-        return appointmentRepo.findAll();
-    }
+    
+    // public Optional<Appointment> getAppointmentById(Long id) {
+    //     return appointmentRepo.findById(id);
+    // }
+    
+    // maybe remove this method
+    // public List<Appointment> test() {
+    //     return appointmentRepo.findAll();
+    // }
 
     public List<Appointment> getPastAppointments(Long driverId) {
         return appointmentRepo.findByPatientDriverIdAndPickupDateTimeBefore(driverId, LocalDateTime.now());

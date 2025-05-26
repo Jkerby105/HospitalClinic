@@ -12,5 +12,7 @@ public interface DoctorReportRepo extends JpaRepository<DoctorReport, Long> {
 
     List<DoctorReport> findByAppointmentPatientId(Long patientId);
 
+    List<DoctorReport> findByDoctorId(Long id);
+
     
 } 

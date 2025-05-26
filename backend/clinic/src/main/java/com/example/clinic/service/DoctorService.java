@@ -33,22 +33,23 @@ public class DoctorService {
 
     // Get List
 
-    public List<DoctorAvailability> getAllDoctorAvailability() {
-        return doctorAvailabilityRepo.findAll();
+    // only admin needs to see all this
+    // public List<DoctorAvailability> getAllDoctorAvailability() {
+    //     return doctorAvailabilityRepo.findAll();
+    // }
+
+    // public List<DoctorReport> getAllDoctorReportRepo() {
+    //     return doctorReportRepo.findAll();
+    // }
+
+    // Get List
+
+    public List<DoctorAvailability> getDoctorAvailabilities(Long id) {
+        return doctorAvailabilityRepo.findByDoctorId(id);
     }
 
-    public List<DoctorReport> getAllDoctorReportRepo() {
-        return doctorReportRepo.findAll();
-    }
-
-    // Get One
-
-    public Optional<DoctorAvailability> getDoctorAvailability(Long id) {
-        return doctorAvailabilityRepo.findById(id);
-    }
-
-    public Optional<DoctorReport> getDoctorReport(Long id) {
-        return doctorReportRepo.findById(id);
+    public List<DoctorReport> getDoctorReport(Long id) {
+        return doctorReportRepo.findByDoctorId(id);
     }
 
     // Create | Update

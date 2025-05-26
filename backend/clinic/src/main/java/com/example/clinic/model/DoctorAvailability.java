@@ -20,12 +20,12 @@ public class DoctorAvailability {
     private Doctor doctor;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private DayOfWeek dayOfWeek;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalTime startTime;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalTime endTime;
 }
