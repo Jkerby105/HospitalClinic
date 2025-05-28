@@ -27,7 +27,5 @@ public class DoctorReport {
     @Column(length = 2000, nullable = false)
     private String treatmentPlan;
 
-    private Boolean followUpRequired;
 
-    private LocalDate nextAppointmentDate;
 }

@@ -32,6 +32,7 @@ public class Doctor {
     @Column(nullable = false)
     private String email;
 
+    // Might remove
     @Column(nullable = false)
     private String credentials;
 
