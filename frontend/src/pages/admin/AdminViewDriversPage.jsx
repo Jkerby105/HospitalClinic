@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const adminViewDriversPage = () => {
+export const AdminViewDriversPage = () => {
   return (
     <div>adminViewDriversPage</div>
   )

@@ -1,6 +1,6 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { errorPage } from "./pages/error/errorPage";
+import { ErrorPage } from "./pages/error/errorPage";
 
 
 
@@ -8,7 +8,7 @@ function App() {
   const router = createBrowserRouter([
   
     {
-      errorElement: <errorPage />,
+      errorElement: <ErrorPage />,
       
 
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const driverHomePage = () => {
+export const DriverHomePage = () => {
   return (
     <div>driverHomePage</div>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const adminNav = () => {
+export const AdminNav = () => {
   return (
     <div>adminNav</div>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const filter = () => {
+export const Filter = () => {
   return (
     <div>filter</div>
   )

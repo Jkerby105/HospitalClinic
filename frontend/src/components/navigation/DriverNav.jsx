@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const driverNav = () => {
+export const DriverNav = () => {
   return (
     <div>driverNav</div>
   )

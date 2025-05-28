@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const adminViewVehiclesPage = () => {
+export const AdminViewVehiclesPage = () => {
   return (
     <div>adminViewVehiclesPage</div>
   )

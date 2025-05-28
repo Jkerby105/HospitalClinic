@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const cardComp = () => {
+export const CardComp = () => {
   return (
     <div>cardComp</div>
   )

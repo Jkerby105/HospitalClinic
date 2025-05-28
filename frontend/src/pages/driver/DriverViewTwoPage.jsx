@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const driverViewTwoPage = () => {
+export const DriverViewTwoPage = () => {
   return (
     <div>driverViewTwoPage</div>
   )

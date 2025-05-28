@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const doctorNav = () => {
+export const DoctorNav = () => {
   return (
     <div>doctorNav</div>
   )

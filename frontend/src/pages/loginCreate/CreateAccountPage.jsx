@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const createAccountPage = () => {
+export const CreateAccountPage = () => {
   return (
     <div>createAccountPage</div>
   )

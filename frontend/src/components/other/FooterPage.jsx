@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const footerPage = () => {
+export const FooterPage = () => {
   return (
     <div>footerPage</div>
   )

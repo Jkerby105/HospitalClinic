@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const filterCom = () => {
+export const FilterCom = () => {
   return (
     <div>filterCom</div>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const adminHomePage = () => {
+export const AdminHomePage = () => {
   return (
     <div>adminHomePage</div>
   )

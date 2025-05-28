@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const cardTwoComp = () => {
+export const CardTwoComp = () => {
   return (
     <div>cardTwoComp</div>
   )

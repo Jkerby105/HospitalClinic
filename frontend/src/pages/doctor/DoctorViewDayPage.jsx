@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const doctorViewDayPage = () => {
+export const DoctorViewDayPage = () => {
   return (
     <div>doctorViewDayPage</div>
   )
