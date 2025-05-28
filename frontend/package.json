@@ -10,14 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.20.6",
     "axios": "^1.9.0",
     "bootstrap": "^5.3.6",
     "date-fns": "^4.1.0",
     "formik": "^2.4.6",
-    "google-map-react": "^2.2.1",
     "react": "^19.1.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
     "react-toastify": "^11.0.5",
+    "styled-components": "^6.1.18",
     "zustand": "^5.0.4"
   },
   "devDependencies": {
