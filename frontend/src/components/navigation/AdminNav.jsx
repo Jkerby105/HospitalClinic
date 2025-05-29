@@ -2,6 +2,6 @@ import React from 'react'
 
 export const AdminNav = () => {
   return (
-    <div>adminNav</div>
+    <div>AdminNav</div>
   )
 }
