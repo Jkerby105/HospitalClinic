@@ -26,13 +26,16 @@ public class Vehicle {
     private String licensePlate;
 
     @Column(nullable = false)
-    private String ImageName;
+    private String imageName;
+
+    @Column(name = "is_active")
+    private Boolean isActive = true;
 
     @Column(nullable = false)
-    private String ImageType;
+    private String imageType;
 
     @Column(nullable = false)
     @Lob
-    private byte[] ImageData;
+    private byte[] imageData;
 
 }

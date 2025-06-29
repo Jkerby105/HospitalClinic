@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -32,10 +31,16 @@ public class Appointment {
     private Vehicle vehicle;
 
     @Column(nullable = false)
-    private LocalDateTime pickupDateTime;
+    private LocalDateTime startTime;
+
+    @Column(length = 500, nullable = true)
+    private String reasonForVisit;
 
     @Column(nullable = false)
-    private LocalDateTime endTime = pickupDateTime.plusMinutes(30);
+    // private LocalDateTime endTime = starTime.plusMinutes(30);
+    // private LocalDateTime endTime = starTime.plusMinutes(30);
+    private LocalDateTime endTime;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -44,4 +49,25 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AppointmentStatus status;
+
+    // ------------
+
+    @Column(nullable = true)
+    private boolean pickedUp;
+
+    @Column(length = 255, nullable = true)
+    private String pickupAddressLine;
+
+    @Column(length = 100, nullable = true)
+    private String pickupCity;
+
+    @Column(length = 100, nullable = true)
+    private String pickupState;
+
+    @Column(length = 20, nullable = true)
+    private String pickupZipCode;
+
+    @Column(length = 255, nullable = true)
+    private String pickupNotes;
+
 }

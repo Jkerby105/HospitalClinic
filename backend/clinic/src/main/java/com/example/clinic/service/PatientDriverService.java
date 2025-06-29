@@ -31,22 +31,13 @@ public class PatientDriverService {
     // public Optional<Appointment> getAppointmentById(Long id) {
     //     return appointmentRepo.findById(id);
     // }
-    
-    // maybe remove this method
-    // public List<Appointment> test() {
-    //     return appointmentRepo.findAll();
-    // }
 
-    public List<Appointment> getPastAppointments(Long driverId) {
-        return appointmentRepo.findByPatientDriverIdAndPickupDateTimeBefore(driverId, LocalDateTime.now());
-    }
-
-    public List<Appointment> getUpcomingAppointments(Long driverId) {
-        return appointmentRepo.findByPatientDriverIdAndPickupDateTimeAfter(driverId, LocalDateTime.now());
-    }
 
     public List<Appointment> getAppointmentsForDriver(Long driverId) {
-        return appointmentRepo.getAppointmentsForDriver(driverId);
+
+        System.out.println("Fetching appointments for driver with ID: " + driverId);
+        //  LocalDateTime now = LocalDateTime.now(); 
+        return appointmentRepo.getUpcomingAppointmentsForDriver(driverId);
     }
     
 }

@@ -48,7 +48,7 @@ public class AdminService {
 
     @Autowired
     private DoctorAvailabilityRepo doctorAvailabilityRepo;
-    
+
     @Autowired
     private DoctorReportRepo doctorReportRepo;
 
@@ -85,8 +85,6 @@ public class AdminService {
     public List<DoctorReport> getAllAppointmentsDoctorReport() {
         return doctorReportRepo.findAll();
     }
-
-
 
     // -------------------- Singular ------------------- \\
 
@@ -126,16 +124,19 @@ public class AdminService {
 
     // Admin
     public Admin createOrUpdateAdmin(Admin admin) {
+        admin.setIsActive(true);
         return adminRepo.save(admin);
     }
 
     // Doctor
     public Doctor createOrUpdateDoctor(Doctor doctor) {
+        doctor.setIsActive(true);
         return doctorRepo.save(doctor);
     }
 
     // PatientDriver with two images: driver and license
-    public PatientDriver createOrUpdateDriver(PatientDriver driver, MultipartFile driverImage, MultipartFile licenseImage) throws IOException {
+    public PatientDriver createOrUpdateDriver(PatientDriver driver, MultipartFile driverImage,
+            MultipartFile licenseImage) throws IOException {
         if (driverImage != null && !driverImage.isEmpty()) {
             driver.setDriverImageName(driverImage.getOriginalFilename());
             driver.setDriverImageType(driverImage.getContentType());
@@ -159,30 +160,48 @@ public class AdminService {
         return vehicleRepo.save(vehicle);
     }
 
+    public PatientDriver createOrUpdatePatientDriver(PatientDriver driver,
+            MultipartFile driverImage,
+            MultipartFile licenseImage) throws IOException {
+        if (driverImage != null && !driverImage.isEmpty()) {
+            driver.setDriverImageName(driverImage.getOriginalFilename());
+            driver.setDriverImageType(driverImage.getContentType());
+            driver.setDriverImageData(driverImage.getBytes());
+        }
+
+        if (licenseImage != null && !licenseImage.isEmpty()) {
+            driver.setLicenseImageName(licenseImage.getOriginalFilename());
+            driver.setLicenseImageType(licenseImage.getContentType());
+            driver.setLicenseImageData(licenseImage.getBytes());
+        }
+
+        return patientDriverRepo.save(driver);
+    }
+
     // -------------------- Delete ------------------- \\
 
-    public void deleteAdmin(Long id) {
-        adminRepo.deleteById(id);
-    }
+    // public void deleteAdmin(Long id) {
+    // adminRepo.deleteById(id);
+    // }
 
-    public void deleteDoctor(Long id) {
-        doctorRepo.deleteById(id);
-    }
+    // public void deleteDoctor(Long id) {
+    // doctorRepo.deleteById(id);
+    // }
 
-    public void deleteDriver(Long id) {
-        patientDriverRepo.deleteById(id);
-    }
+    // public void deleteDriver(Long id) {
+    // patientDriverRepo.deleteById(id);
+    // }
 
-    public void deletePatient(Long id) {
-        patientRepo.deleteById(id);
-    }
+    // public void deletePatient(Long id) {
+    // patientRepo.deleteById(id);
+    // }
 
-    public void deleteVehicle(Long id) {
-        vehicleRepo.deleteById(id);
-    }
+    // public void deleteVehicle(Long id) {
+    // vehicleRepo.deleteById(id);
+    // }
 
-    public void deleteAppointment(Long id) {
-        appointmentRepo.deleteById(id);
-    }
+    // public void deleteAppointment(Long id) {
+    // appointmentRepo.deleteById(id);
+    // }
 
 }

@@ -15,7 +15,7 @@ import com.example.clinic.model.DoctorAvailability;
 import com.example.clinic.model.DoctorReport;
 import com.example.clinic.service.DoctorService;
 
-import io.jsonwebtoken.io.IOException;
+// import io.jsonwebtoken.io.IOException;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,11 +65,9 @@ public class DoctorController {
         try {
             dReport = dService.saveDoctorReport(dReport);
            return new ResponseEntity<>(dReport, HttpStatus.CREATED);
-       } catch (IOException e) {
+       } catch (Exception e) {
            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
        }
-
-
     }
 
     @PostMapping("/Availability")
@@ -79,7 +77,7 @@ public class DoctorController {
        try {
         dAvailability = dService.saveDoctorAvailability(doctorAvailability);
        return new ResponseEntity<>(dAvailability, HttpStatus.CREATED);
-   } catch (IOException e) {
+   } catch (Exception e) {
        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
    }
 

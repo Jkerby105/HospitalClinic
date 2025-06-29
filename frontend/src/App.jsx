@@ -1,8 +1,17 @@
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router";
 
 import { ErrorPage } from "./pages/error/ErrorPage";
+import { ContactPage } from "./components/other/ContactPage";
+import { FooterPage } from "./components/other/FooterPage";
 import { AboutUsPage } from "./components/other/AboutUsPage";
+import { PrivacyPolicy } from "./components/other/PrivacyPolicy";
+// - ------------------------------------------------------------------
+  import { CreateAccount } from "./components/patient/CreateAccount";
+  import { CreateAccounts } from "./components/admin/CreateAccounts";
+// - ------------------------------------------------------------------
+
 
 // Root
 import { LoginCreateRoot } from "./pages/root/LoginCreateRoot";
@@ -13,6 +22,7 @@ import { DoctorRoot } from "./pages/root/DoctorRoot";
 
 // Admin
 import { AdminHomePage } from "./pages/admin/AdminHomePage";
+// import  AdminHomePage  from "./pages/admin/AdminHomePage";
 import { AdminViewAdminsPage } from "./pages/admin/AdminViewAdminsPage";
 import { AdminViewDoctorPage } from "./pages/admin/AdminViewDoctorPage";
 import { AdminViewDriversPage } from "./pages/admin/AdminViewDriversPage";
@@ -52,6 +62,14 @@ function App() {
         { index: true, element: <LoginPage /> },
         { path: "CreateAccount", element: <CreateAccountPage /> },
         { path: "AboutUs", element: <AboutUsPage /> },
+        {path: "Contact", element: <ContactPage /> },
+        {path: "Footer", element: <FooterPage /> },
+        {path: "PrivacyPolicy", element: <PrivacyPolicy /> },
+
+        // ----------- testing only ---------------
+        {path: "testCreate", element: <CreateAccount /> },
+        {path: "testCreateAccounts", element: <CreateAccounts /> },
+
       ],
     },
 

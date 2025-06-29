@@ -44,6 +44,8 @@ public class DoctorService {
 
     // Get List
 
+    // see there upcoming appointments
+
     public List<DoctorAvailability> getDoctorAvailabilities(Long id) {
         return doctorAvailabilityRepo.findByDoctorId(id);
     }

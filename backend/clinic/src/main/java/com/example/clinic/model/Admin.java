@@ -33,6 +33,9 @@ public class Admin {
     @Column(nullable = false)
     private String phoneNumber;
 
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
     @Column(nullable = false)
     private String email;
 

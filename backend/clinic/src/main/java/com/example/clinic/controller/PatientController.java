@@ -27,21 +27,21 @@ public class PatientController {
         return ResponseEntity.ok(patientService.getPatientById(id));
     }
 
-    @GetMapping("/info/appointments/{id}")
-    public ResponseEntity<List<Appointment>> getAppointments(@PathVariable Long id) {
-        return ResponseEntity.ok(patientService.getAppointments(id));
-    }
+    // @GetMapping("/info/appointments/{id}")
+    // public ResponseEntity<List<Appointment>> getAppointments(@PathVariable Long id) {
+    //     return ResponseEntity.ok(patientService.getAppointments(id));
+    // }
 
-    @GetMapping("/info/reports/{id}")
-    public ResponseEntity<List<DoctorReport>> getDoctorReports(@PathVariable Long id) {
-        return ResponseEntity.ok(patientService.getReports(id));
-    }
+    // @GetMapping("/info/reports/{id}")
+    // public ResponseEntity<List<DoctorReport>> getDoctorReports(@PathVariable Long id) {
+    //     return ResponseEntity.ok(patientService.getReports(id));
+    // }
 
     // ------------------ Create / Update ------------------ \\
 
     @PostMapping("/appointment")
     public ResponseEntity<Appointment> saveAppointment(@RequestBody Appointment appointment) {
-        return ResponseEntity.ok(patientService.saveAppointment(appointment));
+        return ResponseEntity.ok(patientService.createAppointment(appointment));
     }
 
     // ------------------ TODO: Login & Create Account ------------------ \\

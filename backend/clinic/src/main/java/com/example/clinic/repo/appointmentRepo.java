@@ -14,14 +14,16 @@ import com.example.clinic.model.AppointmentStatus;
 @Repository
 public interface AppointmentRepo extends JpaRepository<Appointment, Long> {
 
-    List<Appointment> findByPatientDriverId(Long driverId);
-
-    List<Appointment> findByPatientDriverIdAndPickupDateTimeBefore(Long driverId, LocalDateTime dateTime);
-
-    List<Appointment> findByPatientDriverIdAndPickupDateTimeAfter(Long driverId, LocalDateTime dateTime);
+    List<Appointment> findByPatientDriverId(Long driverId);;
 
     @Query("SELECT a FROM Appointment a WHERE a.patientDriver.id = :driverId")
-    List<Appointment> getAppointmentsForDriver(@Param("driverId") Long driverId);
+    List<Appointment> getUpcomingAppointmentsForDriver(@Param("driverId") Long
+    driverId);
+
+    // @Query("SELECT a FROM Appointment a WHERE a.patientDriver.id = :driverId AND a.startTime > :currentTime")
+    // List<Appointment> getUpcomingAppointmentsForDriver(
+    //         @Param("driverId") Long driverId,
+    //         @Param("currentTime") LocalDateTime currentTime);
 
     List<Appointment> findByPatientId(Long patientId);
 

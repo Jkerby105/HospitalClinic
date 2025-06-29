@@ -19,13 +19,17 @@ public class DoctorAvailability {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
+    // i change the nullable to false, so that the doctor must be set
+    //  add :  What You Need to Enforce at the Logic Layer
+// What your model doesn’t do automatically is prevent overlaps — for example, someone could insert:
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
+    @Column(nullable = false)
     private DayOfWeek dayOfWeek;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private LocalTime startTime;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private LocalTime endTime;
 }

@@ -48,6 +48,7 @@ public class Patient {
 
     private String zipCode;
 
+
     @Column(nullable = false, unique = true)
     private String username;
 
