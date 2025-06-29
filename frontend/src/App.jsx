@@ -15,6 +15,7 @@ import { PrivacyPolicy } from "./components/other/PrivacyPolicy";
 
 // Root
 import { LoginCreateRoot } from "./pages/root/LoginCreateRoot";
+import { LandingPage } from "./pages/root/LandingPage";
 import { AdminRoot } from "./pages/root/AdminRoot";
 import { DriverRoot } from "./pages/root/DriverRoot";
 import { PatientRoot } from "./pages/root/PatientRoot";
@@ -28,10 +29,11 @@ import { AdminViewDoctorPage } from "./pages/admin/AdminViewDoctorPage";
 import { AdminViewDriversPage } from "./pages/admin/AdminViewDriversPage";
 import { AdminViewPatientPage } from "./pages/admin/AdminViewPatientPage";
 import { AdminViewVehiclesPage } from "./pages/admin/AdminViewVehiclesPage";
-import { AdminCreateAdminPage } from "./pages/admin/create/AdminCreateAdminPage";
-import { AdminCreateDoctorPage } from "./pages/admin/create/AdminCreateDoctorPage";
-import { AdminCreateDriverPage } from "./pages/admin/create/AdminCreateDriverPage";
-import { AdminCreateVehiclePage } from "./pages/admin/create/AdminCreateVehiclePage";
+import { CreateAccountsPage } from "./pages/admin/create/CreateAccountsPage";
+// import { AdminCreateAdminPage } from "./pages/admin/create/AdminCreateAdminPage";
+// import { AdminCreateDoctorPage } from "./pages/admin/create/AdminCreateDoctorPage";
+// import { AdminCreateDriverPage } from "./pages/admin/create/AdminCreateDriverPage";
+// import { AdminCreateVehiclePage } from "./pages/admin/create/AdminCreateVehiclePage";
 
 // Doctor
 import { DoctorHomePage } from "./pages/doctor/DoctorHomePage";
@@ -45,6 +47,7 @@ import { DriverViewTwoPage } from "./pages/driver/DriverViewTwoPage";
 
 // Patient
 import { CreateAccountPage } from "./pages/loginCreate/CreateAccountPage";
+import { PatientAccountCreatePate } from "./pages/patient/PatientAccountCreatePate";
 import { LoginPage } from "./pages/loginCreate/LoginPage";
 import { PatientAppointmentPage } from "./pages/patient/PatientAppointmentPage";
 import { PatientAppointmentReportPage } from "./pages/patient/PatientAppointmentReportPage";
@@ -59,7 +62,8 @@ function App() {
       element: <LoginCreateRoot />,
       path: "/",
       children: [
-        { index: true, element: <LoginPage /> },
+        { index: true, element: <LandingPage /> },
+        { path: "Login", element: <LoginPage /> },
         { path: "CreateAccount", element: <CreateAccountPage /> },
         { path: "AboutUs", element: <AboutUsPage /> },
         {path: "Contact", element: <ContactPage /> },
@@ -84,11 +88,12 @@ function App() {
         { path: "view-drivers", element: <AdminViewDriversPage /> },
         { path: "view-patients", element: <AdminViewPatientPage /> },
         { path: "view-vehicles", element: <AdminViewVehiclesPage /> },
+        {path: "create-accounts", element: <CreateAccountsPage /> },
         // Use search params  (mode=create/update, id=optional)
-        { path: "create-admin", element: <AdminCreateAdminPage /> },
-        { path: "create-doctor", element: <AdminCreateDoctorPage /> },
-        { path: "create-driver", element: <AdminCreateDriverPage /> },
-        { path: "create-vehicle", element: <AdminCreateVehiclePage /> },
+        // { path: "create-admin", element: <AdminCreateAdminPage /> },
+        // { path: "create-doctor", element: <AdminCreateDoctorPage /> },
+        // { path: "create-driver", element: <AdminCreateDriverPage /> },
+        // { path: "create-vehicle", element: <AdminCreateVehiclePage /> },
       ],
     },
 
@@ -120,6 +125,7 @@ function App() {
       path: "patient",
       children: [
         { index: true, element: <PatientHomePage /> },
+        {path: "create-account", element: <PatientAccountCreatePate /> },
         { path: "appointment/:id", element: <PatientAppointmentPage /> }, 
         { path: "appointment-report/:id", element: <PatientAppointmentReportPage /> }, 
         { path: "find-appointment", element: <PatientFindAppointmentPage /> },
