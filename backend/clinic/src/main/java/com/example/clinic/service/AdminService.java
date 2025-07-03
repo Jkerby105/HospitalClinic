@@ -135,20 +135,20 @@ public class AdminService {
     }
 
     // PatientDriver with two images: driver and license
-    public PatientDriver createOrUpdateDriver(PatientDriver driver, MultipartFile driverImage,
-            MultipartFile licenseImage) throws IOException {
-        if (driverImage != null && !driverImage.isEmpty()) {
-            driver.setDriverImageName(driverImage.getOriginalFilename());
-            driver.setDriverImageType(driverImage.getContentType());
-            driver.setDriverImageData(driverImage.getBytes());
-        }
-        if (licenseImage != null && !licenseImage.isEmpty()) {
-            driver.setLicenseImageName(licenseImage.getOriginalFilename());
-            driver.setLicenseImageType(licenseImage.getContentType());
-            driver.setLicenseImageData(licenseImage.getBytes());
-        }
-        return patientDriverRepo.save(driver);
-    }
+    // public PatientDriver createOrUpdateDriver(PatientDriver driver, MultipartFile driverImage,
+    //         MultipartFile licenseImage) throws IOException {
+    //     if (driverImage != null && !driverImage.isEmpty()) {
+    //         driver.setDriverImageName(driverImage.getOriginalFilename());
+    //         driver.setDriverImageType(driverImage.getContentType());
+    //         driver.setDriverImageData(driverImage.getBytes());
+    //     }
+    //     if (licenseImage != null && !licenseImage.isEmpty()) {
+    //         driver.setLicenseImageName(licenseImage.getOriginalFilename());
+    //         driver.setLicenseImageType(licenseImage.getContentType());
+    //         driver.setLicenseImageData(licenseImage.getBytes());
+    //     }
+    //     return patientDriverRepo.save(driver);
+    // }
 
     // Vehicle with image
     public Vehicle createOrUpdateVehicle(Vehicle vehicle, MultipartFile image) throws IOException {

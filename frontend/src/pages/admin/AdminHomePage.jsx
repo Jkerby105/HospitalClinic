@@ -52,11 +52,11 @@ export const AdminHomePage = () => {
       description: "Set or update doctor schedules",
       route: "/admin/availability"
     },
-    {
-      title: "Doctor Reports",
-      description: "Review submitted doctor reports",
-      route: "/admin/reports"
-    },
+    // {
+    //   title: "Doctor Reports",
+    //   description: "Review submitted doctor reports",
+    //   route: "/admin/reports"
+    // },
   ];
 
   return (

@@ -23,35 +23,37 @@ import { DoctorRoot } from "./pages/root/DoctorRoot";
 
 // Admin
 import { AdminHomePage } from "./pages/admin/AdminHomePage";
-// import  AdminHomePage  from "./pages/admin/AdminHomePage";
+import { CreateAccountsPage } from "./pages/admin/create/CreateAccountsPage";
 import { AdminViewAdminsPage } from "./pages/admin/AdminViewAdminsPage";
 import { AdminViewDoctorPage } from "./pages/admin/AdminViewDoctorPage";
 import { AdminViewDriversPage } from "./pages/admin/AdminViewDriversPage";
 import { AdminViewPatientPage } from "./pages/admin/AdminViewPatientPage";
 import { AdminViewVehiclesPage } from "./pages/admin/AdminViewVehiclesPage";
-import { CreateAccountsPage } from "./pages/admin/create/CreateAccountsPage";
-// import { AdminCreateAdminPage } from "./pages/admin/create/AdminCreateAdminPage";
-// import { AdminCreateDoctorPage } from "./pages/admin/create/AdminCreateDoctorPage";
-// import { AdminCreateDriverPage } from "./pages/admin/create/AdminCreateDriverPage";
-// import { AdminCreateVehiclePage } from "./pages/admin/create/AdminCreateVehiclePage";
+import { AdminViewAppointmentPage } from "./pages/admin/AdminViewAppointmentPage";
+import { AdminViewDoctorAvailabilityPage } from "./pages/admin/AdminViewDoctorAvailabilityPage";
+import { ViewDoctor } from "./pages/admin/create/ViewDoctor";
+import { ViewDriver } from "./pages/admin/create/ViewDriver";
+import { ViewAdmin } from "./pages/admin/create/ViewAdmin";
+import { ViewVehicle } from "./pages/admin/create/ViewVehicle";
 
 // Doctor
 import { DoctorHomePage } from "./pages/doctor/DoctorHomePage";
 import { DoctorViewDayPage } from "./pages/doctor/DoctorViewDayPage";
 import { DoctorViewReportPage } from "./pages/doctor/DoctorViewReportPage";
-import { DoctorViewOneReportPage } from "./pages/doctor/DoctorViewOneReportPage";
+// import { DoctorViewOneReportPage } from "./pages/doctor/DoctorViewOneReportPage";
 
 // Driver
 import { DriverHomePage } from "./pages/driver/DriverHomePage";
-import { DriverViewTwoPage } from "./pages/driver/DriverViewTwoPage";
+// import { DriverViewTwoPage } from "./pages/driver/DriverViewTwoPage";
 
 // Patient
 import { CreateAccountPage } from "./pages/loginCreate/CreateAccountPage";
 import { PatientAccountCreatePate } from "./pages/patient/PatientAccountCreatePate";
 import { LoginPage } from "./pages/loginCreate/LoginPage";
 import { PatientAppointmentPage } from "./pages/patient/PatientAppointmentPage";
-import { PatientAppointmentReportPage } from "./pages/patient/PatientAppointmentReportPage";
-import { PatientFindAppointmentPage } from "./pages/patient/PatientFindAppointmentPage";
+import { PatientPastAppointmentPage } from "./pages/patient/PatientPastAppointmentPage";
+// import { PatientAppointmentReportPage } from "./pages/patient/PatientAppointmentReportPage";
+// import { PatientFindAppointmentPage } from "./pages/patient/PatientFindAppointmentPage";
 import { PatientHomePage } from "./pages/patient/PatientHomePage";
 import { PatientInfoPage } from "./pages/patient/PatientInfoPage";
 
@@ -83,17 +85,18 @@ function App() {
       path: "admin",
       children: [
         { index: true, element: <AdminHomePage /> },
-        { path: "view-admins", element: <AdminViewAdminsPage /> },
-        { path: "view-doctors", element: <AdminViewDoctorPage /> },
-        { path: "view-drivers", element: <AdminViewDriversPage /> },
-        { path: "view-patients", element: <AdminViewPatientPage /> },
-        { path: "view-vehicles", element: <AdminViewVehiclesPage /> },
+        { path: "admins", element: <AdminViewAdminsPage /> },
+        { path: "doctors", element: <AdminViewDoctorPage /> },
+        { path: "drivers", element: <AdminViewDriversPage /> },
+        { path: "patients", element: <AdminViewPatientPage /> },
+        { path: "vehicles", element: <AdminViewVehiclesPage /> },
+        {path: "appointments", element: <AdminViewAppointmentPage /> },
         {path: "create-accounts", element: <CreateAccountsPage /> },
-        // Use search params  (mode=create/update, id=optional)
-        // { path: "create-admin", element: <AdminCreateAdminPage /> },
-        // { path: "create-doctor", element: <AdminCreateDoctorPage /> },
-        // { path: "create-driver", element: <AdminCreateDriverPage /> },
-        // { path: "create-vehicle", element: <AdminCreateVehiclePage /> },
+        {path: "availability", element: <AdminViewDoctorAvailabilityPage /> },
+        {path: "view-doctor/:id", element: <ViewDoctor /> },
+        {path: "view-driver/:id", element: <ViewDriver /> },
+        {path: "view-admin/:id", element: <ViewAdmin /> },
+        {path: "view-vehicle/:id", element: <ViewVehicle /> },
       ],
     },
 
@@ -103,9 +106,10 @@ function App() {
       path: "doctor",
       children: [
         { index: true, element: <DoctorHomePage /> },
-        { path: "view-day/:id", element: <DoctorViewDayPage /> }, 
+        { path: "view-day/", element: <DoctorViewDayPage /> }, 
         { path: "view-report", element: <DoctorViewReportPage /> },
-        { path: "view-report/:id", element: <DoctorViewOneReportPage /> }, 
+        // {path: "view-doctor/:id", element: <ViewDoctor /> },
+        // { path: "view-report/:id", element: <DoctorViewOneReportPage /> }, 
       ],
     },
 
@@ -115,7 +119,7 @@ function App() {
       path: "driver",
       children: [
         { index: true, element: <DriverHomePage /> },
-        { path: "view-two/:id", element: <DriverViewTwoPage /> }, 
+        // { path: "view-two/:id", element: <DriverViewTwoPage /> }, 
       ],
     },
 
@@ -126,9 +130,10 @@ function App() {
       children: [
         { index: true, element: <PatientHomePage /> },
         {path: "create-account", element: <PatientAccountCreatePate /> },
-        { path: "appointment/:id", element: <PatientAppointmentPage /> }, 
-        { path: "appointment-report/:id", element: <PatientAppointmentReportPage /> }, 
-        { path: "find-appointment", element: <PatientFindAppointmentPage /> },
+        { path: "appointment", element: <PatientAppointmentPage /> }, 
+        {path: "past-appointments", element: <PatientPastAppointmentPage /> },
+        // { path: "appointment-report/:id", element: <PatientAppointmentReportPage /> }, 
+        // { path: "find-appointment", element: <PatientFindAppointmentPage /> },
         { path: "info", element: <PatientInfoPage /> },
       ],
     },
