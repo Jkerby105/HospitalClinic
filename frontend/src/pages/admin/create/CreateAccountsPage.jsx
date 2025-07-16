@@ -10,8 +10,15 @@ import {
   Select,
   SubmitButton
 } from '../../../styles/admin/createAccountsStyle';
+import { validateAdminFunction } from '../../../services/service';
+import { AuthStore } from '../../../store/AuthStore';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 
 export const CreateAccountsPage = () => {
+  const navigate = useNavigate();
+  const {createAccount} = AuthStore();
+
   const [entityType, setEntityType] = useState('admin');
   const [formData, setFormData] = useState({});
 
@@ -24,11 +31,23 @@ export const CreateAccountsPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(`Submitting ${entityType}:`, formData);
-    // Send data to backend
-  };
+const handleSubmit =  async (e) => {
+  e.preventDefault();
+  console.log(entityType);
+  console.log(formData);
+  const isValid = validateAdminFunction(formData, entityType); 
+  if (isValid) {
+    console.log(`Creating ${entityType}:`, formData);
+    toast.success('Form is valid, ready to submit!');
+    await createAccount(formData, entityType); 
+    navigate("/admin");
+  }else{
+    console.log("error in form");
+    toast.error('Form is invalid, please check the fields.');
+  }
+
+};
+
 
   const renderFields = () => {
     switch (entityType) {

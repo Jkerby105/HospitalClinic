@@ -11,6 +11,7 @@ import { PrivacyPolicy } from "./components/other/PrivacyPolicy";
   import { CreateAccount } from "./components/patient/CreateAccount";
   import { CreateAccounts } from "./components/admin/CreateAccounts";
 // - ------------------------------------------------------------------
+import { checkAuthLoader } from "./utils/checkAuthLoader";
 
 
 // Root
@@ -66,7 +67,7 @@ function App() {
       children: [
         { index: true, element: <LandingPage /> },
         { path: "Login", element: <LoginPage /> },
-        { path: "CreateAccount", element: <CreateAccountPage /> },
+        // { path: "CreateAccount", element: <CreateAccountPage /> },
         { path: "AboutUs", element: <AboutUsPage /> },
         {path: "Contact", element: <ContactPage /> },
         {path: "Footer", element: <FooterPage /> },
@@ -81,27 +82,42 @@ function App() {
 
     {
       errorElement: <ErrorPage />,
+      //  loader: checkAuthLoader,
       element: <AdminRoot />,
       path: "admin",
       children: [
         { index: true, element: <AdminHomePage /> },
+
+        // -------------------------- \\
         { path: "admins", element: <AdminViewAdminsPage /> },
         { path: "doctors", element: <AdminViewDoctorPage /> },
         { path: "drivers", element: <AdminViewDriversPage /> },
         { path: "patients", element: <AdminViewPatientPage /> },
         { path: "vehicles", element: <AdminViewVehiclesPage /> },
+        // -------------------------- \\
+
         {path: "appointments", element: <AdminViewAppointmentPage /> },
+
+        // -------------------------- \\
         {path: "create-accounts", element: <CreateAccountsPage /> },
+        // -------------------------- \\
+
+
         {path: "availability", element: <AdminViewDoctorAvailabilityPage /> },
+
+        // -------------------------- \\
         {path: "view-doctor/:id", element: <ViewDoctor /> },
         {path: "view-driver/:id", element: <ViewDriver /> },
         {path: "view-admin/:id", element: <ViewAdmin /> },
         {path: "view-vehicle/:id", element: <ViewVehicle /> },
+        // -------------------------- \\
+
       ],
     },
 
     {
       errorElement: <ErrorPage />,
+       loader: checkAuthLoader,
       element: <DoctorRoot />,
       path: "doctor",
       children: [
@@ -115,6 +131,7 @@ function App() {
 
     {
       errorElement: <ErrorPage />,
+       loader: checkAuthLoader,
       element: <DriverRoot />,
       path: "driver",
       children: [
@@ -126,6 +143,7 @@ function App() {
     {
       errorElement: <ErrorPage />,
       element: <PatientRoot />,
+      loader: checkAuthLoader,
       path: "patient",
       children: [
         { index: true, element: <PatientHomePage /> },

@@ -13,6 +13,7 @@ import com.example.clinic.repo.DoctorReportRepo;
 import com.example.clinic.repo.PatientDriverRepo;
 import com.example.clinic.repo.PatientRepo;
 import com.example.clinic.repo.VehicleRepo;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,8 +52,13 @@ public class PatientService {
     }
 
     // Create / Update patient profile
-    public Patient updatePatient(Patient updatedPatient) {
-        return patientRepo.save(updatedPatient);
+    public Optional<Patient> createUpdatePatient(Patient patient) {
+        if(patient.getPassword() != null){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+        } 
+        
+        return Optional.of(patientRepo.save(patient));
     }
 
     // View doctor reports for a patient

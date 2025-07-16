@@ -8,5 +8,8 @@ import com.example.clinic.model.Patient;
 @Repository
 public interface PatientRepo extends JpaRepository<Patient, Long>{
 
+    Patient findByUsername(String username);
+    
+    
     
 } 

@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import { validateFunction } from '../../services/service';
+import {AuthStore} from '../../store/AuthStore';
+import { validateAdminFunction } from '../../services/service';
 import {
   FormWrapper,
   InputGroup,
@@ -11,6 +15,8 @@ import {
 } from '../../styles/patient/patientFormStyle';
 
 export const PatientAccountCreatePate = () => {
+
+  const {createAccount} = AuthStore();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -33,9 +39,17 @@ export const PatientAccountCreatePate = () => {
   };
 
   const handleSubmit = (e) => {
+    
     e.preventDefault();
-    console.log('Form Submitted:', formData);
-    // You can POST this data to your backend here
+    // console.log('Form Submitted:', formData);
+    const errorValue = validateFunction(formData);
+    if(errorValue) {
+      console.log(errorValue);
+      toast.success('Form is valid, ready to submit!');
+      createAccount(formData, 'patient');
+    }else{
+      toast.error('Form is invalid, please check the fields.');
+    }
   };
 
   return (
@@ -60,10 +74,9 @@ export const PatientAccountCreatePate = () => {
       <InputGroup>
         <Label>Sex</Label>
         <Select name="sex" onChange={handleChange}>
-          <option value="">Select</option>
+          <option value="Other">Other</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
-          <option value="Other">Other</option>
         </Select>
       </InputGroup>
 

@@ -8,6 +8,6 @@ import com.example.clinic.model.PatientDriver;
 @Repository
 public interface PatientDriverRepo extends JpaRepository<PatientDriver, Long> {
 
-    
+    PatientDriver findByUsername(String username);
 
 }

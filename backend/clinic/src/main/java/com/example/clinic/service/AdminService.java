@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.clinic.model.Admin;
 import com.example.clinic.model.Appointment;
@@ -125,12 +126,20 @@ public class AdminService {
     // Admin
     public Admin createOrUpdateAdmin(Admin admin) {
         admin.setIsActive(true);
+        if (admin.getPassword() != null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+            admin.setPassword(encoder.encode(admin.getPassword()));
+        }
         return adminRepo.save(admin);
     }
 
     // Doctor
     public Doctor createOrUpdateDoctor(Doctor doctor) {
         doctor.setIsActive(true);
+        if (doctor.getPassword() != null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+            doctor.setPassword(encoder.encode(doctor.getPassword()));
+        }
         return doctorRepo.save(doctor);
     }
 
@@ -157,8 +166,16 @@ public class AdminService {
             vehicle.setImageType(image.getContentType());
             vehicle.setImageData(image.getBytes());
         }
+        vehicle.setIsActive(true);
         return vehicleRepo.save(vehicle);
     }
+
+    //    public User saveUser(User user) {
+//         user.setPassword(encoder.encode(user.getPassword()));
+//         System.out.println(user.getPassword());
+//         System.out.println(user.toString());
+//         return repo.save(user);
+//     }
 
     public PatientDriver createOrUpdatePatientDriver(PatientDriver driver,
             MultipartFile driverImage,
@@ -174,7 +191,12 @@ public class AdminService {
             driver.setLicenseImageType(licenseImage.getContentType());
             driver.setLicenseImageData(licenseImage.getBytes());
         }
-
+         
+    if (driver.getPassword() != null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+            driver.setPassword(encoder.encode(driver.getPassword()));
+        }
+        driver.setIsActive(true);
         return patientDriverRepo.save(driver);
     }
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import {
   FormWrapper,
   InputGroup,
@@ -7,8 +8,11 @@ import {
   SubmitButton,
   FormTitle,
 } from '../../styles/admin/createAccountsStyle'; // adjust the path if needed
+import { AuthStore } from '../../store/AuthStore';
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+  const {login} = AuthStore();
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
@@ -19,25 +23,33 @@ export const LoginPage = () => {
     setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  async (e) => {
     e.preventDefault();
-
     console.log('Logging in with:', credentials);
+    const role =  await login(credentials);
+    console.log("User role after login:", role + "---------------------------------------------------------");
+  
+    switch(role){
+      case "ROLE_PATIENT":
+        navigate('/patient');
+        break;
+      case "ROLE_ADMIN":
+        navigate('/admin');
+        break;
+      case "ROLE_DOCTOR":
+        navigate('/doctor');
+        break;
+        case "ROLE_PATIENTDRIVER":
+        navigate('/patientdriver');
+        break;
+      default:
+        console.error("Unknown role:", role);
+        break;
+    }
+    
 
-    // TODO: Replace with actual POST request to backend (e.g., /login endpoint)
-    // fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(credentials),
-    // })
-    // .then(res => res.json())
-    // .then(data => {
-    //   console.log('Login success:', data);
-    //   // Handle login state (token, redirect, etc.)
-    // })
-    // .catch(err => {
-    //   console.error('Login error:', err);
-    // });
+    //  navigate('/patient'); 
+
   };
 
   return (
