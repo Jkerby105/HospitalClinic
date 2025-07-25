@@ -38,15 +38,16 @@ export const PatientAccountCreatePate = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     
     e.preventDefault();
+    console.log("test submit");
     // console.log('Form Submitted:', formData);
     const errorValue = validateFunction(formData);
     if(errorValue) {
       console.log(errorValue);
       toast.success('Form is valid, ready to submit!');
-      createAccount(formData, 'patient');
+      await createAccount(formData, 'patient');
     }else{
       toast.error('Form is invalid, please check the fields.');
     }

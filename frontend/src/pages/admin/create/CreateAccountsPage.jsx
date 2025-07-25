@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   FormWrapper,
   FormTitle,
@@ -8,18 +7,25 @@ import {
   Input,
   TextArea,
   Select,
-  SubmitButton
-} from '../../../styles/admin/createAccountsStyle';
-import { validateAdminFunction } from '../../../services/service';
-import { AuthStore } from '../../../store/AuthStore';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router';
+  SubmitButton,
+} from "../../../styles/admin/createAccountsStyle";
+import { validateAdminFunction } from "../../../services/service";
+import { AuthStore } from "../../../store/AuthStore";
+import toast from "react-hot-toast";
+import { useNavigate, useSearchParams } from "react-router";
 
 export const CreateAccountsPage = () => {
   const navigate = useNavigate();
-  const {createAccount} = AuthStore();
+  const { createAccount } = AuthStore();
+  const [searchParams] = useSearchParams();
 
-  const [entityType, setEntityType] = useState('admin');
+  const [editStatus, getEditStatus] = useState(
+    searchParams.get("edit") || false
+  );
+  const [editRole, getEditRole] = useState(searchParams.get("role") || "admin");
+  const [editId, getEditId] = useState(searchParams.get("id") || null);
+
+  const [entityType, setEntityType] = useState("admin");
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {
@@ -31,27 +37,25 @@ export const CreateAccountsPage = () => {
     }
   };
 
-const handleSubmit =  async (e) => {
-  e.preventDefault();
-  console.log(entityType);
-  console.log(formData);
-  const isValid = validateAdminFunction(formData, entityType); 
-  if (isValid) {
-    console.log(`Creating ${entityType}:`, formData);
-    toast.success('Form is valid, ready to submit!');
-    await createAccount(formData, entityType); 
-    navigate("/admin");
-  }else{
-    console.log("error in form");
-    toast.error('Form is invalid, please check the fields.');
-  }
-
-};
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(entityType);
+    console.log(formData);
+    const isValid = validateAdminFunction(formData, entityType);
+    if (isValid) {
+      console.log(`Creating ${entityType}:`, formData);
+      toast.success("Form is valid, ready to submit!");
+      await createAccount(formData, entityType);
+      navigate("/admin");
+    } else {
+      console.log("error in form");
+      toast.error("Form is invalid, please check the fields.");
+    }
+  };
 
   const renderFields = () => {
     switch (entityType) {
-      case 'admin':
+      case "admin":
         return (
           <>
             <InputGroup>
@@ -68,7 +72,12 @@ const handleSubmit =  async (e) => {
             </InputGroup>
             <InputGroup>
               <Label>Email *</Label>
-              <Input name="email" type="email" required onChange={handleChange} />
+              <Input
+                name="email"
+                type="email"
+                required
+                onChange={handleChange}
+              />
             </InputGroup>
             <InputGroup>
               <Label>Username *</Label>
@@ -76,11 +85,16 @@ const handleSubmit =  async (e) => {
             </InputGroup>
             <InputGroup>
               <Label>Password *</Label>
-              <Input name="password" type="password" required onChange={handleChange} />
+              <Input
+                name="password"
+                type="password"
+                required
+                onChange={handleChange}
+              />
             </InputGroup>
           </>
         );
-      case 'doctor':
+      case "doctor":
         return (
           <>
             <InputGroup>
@@ -97,7 +111,12 @@ const handleSubmit =  async (e) => {
             </InputGroup>
             <InputGroup>
               <Label>Email *</Label>
-              <Input name="email" type="email" required onChange={handleChange} />
+              <Input
+                name="email"
+                type="email"
+                required
+                onChange={handleChange}
+              />
             </InputGroup>
             <InputGroup>
               <Label>Credentials *</Label>
@@ -113,11 +132,16 @@ const handleSubmit =  async (e) => {
             </InputGroup>
             <InputGroup>
               <Label>Password *</Label>
-              <Input name="password" type="password" required onChange={handleChange} />
+              <Input
+                name="password"
+                type="password"
+                required
+                onChange={handleChange}
+              />
             </InputGroup>
           </>
         );
-      case 'driver':
+      case "driver":
         return (
           <>
             <InputGroup>
@@ -134,7 +158,12 @@ const handleSubmit =  async (e) => {
             </InputGroup>
             <InputGroup>
               <Label>Email *</Label>
-              <Input name="email" type="email" required onChange={handleChange} />
+              <Input
+                name="email"
+                type="email"
+                required
+                onChange={handleChange}
+              />
             </InputGroup>
             <InputGroup>
               <Label>Username *</Label>
@@ -142,19 +171,36 @@ const handleSubmit =  async (e) => {
             </InputGroup>
             <InputGroup>
               <Label>Password *</Label>
-              <Input name="password" type="password" required onChange={handleChange} />
+              <Input
+                name="password"
+                type="password"
+                required
+                onChange={handleChange}
+              />
             </InputGroup>
             <InputGroup>
               <Label>Driver Image *</Label>
-              <Input name="driverImage" type="file" accept="image/*" required onChange={handleChange} />
+              <Input
+                name="driverImage"
+                type="file"
+                accept="image/*"
+                required
+                onChange={handleChange}
+              />
             </InputGroup>
             <InputGroup>
               <Label>License Image *</Label>
-              <Input name="licenseImage" type="file" accept="image/*" required onChange={handleChange} />
+              <Input
+                name="licenseImage"
+                type="file"
+                accept="image/*"
+                required
+                onChange={handleChange}
+              />
             </InputGroup>
           </>
         );
-      case 'vehicle':
+      case "vehicle":
         return (
           <>
             <InputGroup>
@@ -171,7 +217,13 @@ const handleSubmit =  async (e) => {
             </InputGroup>
             <InputGroup>
               <Label>Vehicle Image *</Label>
-              <Input name="vehicleImage" type="file" accept="image/*" required onChange={handleChange} />
+              <Input
+                name="vehicleImage"
+                type="file"
+                accept="image/*"
+                required
+                onChange={handleChange}
+              />
             </InputGroup>
           </>
         );
@@ -182,10 +234,15 @@ const handleSubmit =  async (e) => {
 
   return (
     <FormWrapper onSubmit={handleSubmit}>
-      <FormTitle>Create {entityType.charAt(0).toUpperCase() + entityType.slice(1)}</FormTitle>
+      <FormTitle>
+        Create {entityType.charAt(0).toUpperCase() + entityType.slice(1)}
+      </FormTitle>
       <InputGroup>
         <Label>Select Entity Type</Label>
-        <Select value={entityType} onChange={(e) => setEntityType(e.target.value)}>
+        <Select
+          value={entityType}
+          onChange={(e) => setEntityType(e.target.value)}
+        >
           <option value="admin">Admin</option>
           <option value="doctor">Doctor</option>
           <option value="driver">Driver</option>
@@ -196,4 +253,5 @@ const handleSubmit =  async (e) => {
       <SubmitButton type="submit">Create</SubmitButton>
     </FormWrapper>
   );
-}
+};
+

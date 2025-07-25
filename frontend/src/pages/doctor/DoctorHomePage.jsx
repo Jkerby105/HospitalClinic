@@ -14,6 +14,7 @@ import {
   TimeInput,
   EditButton,
 } from "../../styles/doctor/doctorDashBoardStyle";
+import { DoctorStore } from "../../store/DoctorStore";
 
 // ✅ Dummy data
 const mockDoctor = {
@@ -62,21 +63,48 @@ const mockAvailability = [
 export const DoctorHomePage = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editedAvailability, setEditedAvailability] = useState([]);
+  const {
+    getDoctorById,
+    getDoctorUpcomingAppointments,
+    getDoctorNoReportAppointments,
+    getDoctorAppointments,
+    getDoctorAvailability,
+    updateDoctorAvailability,
+  } = DoctorStore();
 
   const [filter, setFilter] = useState("upcoming");
+  const [doctor, setDoctor] = useState({});
 
-  // ✅ You can comment out this block if you were using API
-  // useEffect(() => {
-  //   // Normally fetch doctor, appointments, and availability here
-  // }, [filter]);
+  // const appointments = mockAppointments[filter] || [];
+  // const availability = mockAvailability;
 
   useEffect(() => {
-    setEditedAvailability(mockAvailability);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await getDoctorById();
+        setDoctor(response);
+        console.log("Doctor data fetched successfully:", response);
+        const availabilityResponse = await getDoctorAvailability();
+        setEditedAvailability(availabilityResponse);
+        console.log(
+          "Doctor availability fetched successfully:",
+          availabilityResponse
+        );
+      } catch (error) {
+        console.error("Error fetching doctor data:", error);
+      }
+    };
 
-  const doctor = mockDoctor;
-  const appointments = mockAppointments[filter] || [];
-  const availability = mockAvailability;
+    fetchData();
+  }, [filter]);
+
+  async function handleTimeChange(e) {
+    e.preventDefault();
+    const updatedSlot = editedAvailability[editingIndex]; // get
+    console.log("Updated Slot:", updatedSlot);
+
+    await updateDoctorAvailability(updatedSlot);
+  }
 
   return (
     <PageWrapper>
@@ -84,37 +112,39 @@ export const DoctorHomePage = () => {
 
       <Card>
         <CardHeader>
-          Welcome, Dr. {doctor.firstName} {doctor.lastName}
+          Welcome, Dr. {doctor.firstName ?? "N/A"} {doctor.lastName ?? ""}
         </CardHeader>
-        <p>{doctor.specialization}</p>
+        <p>Email: {doctor.email ?? "N/A"}</p>
+        <p>Phone: {doctor.phoneNumber ?? "N/A"}</p>
+        <p>Specialization: {doctor.specialization ?? "N/A"}</p>
       </Card>
 
-      <FilterSection>
+      {/* <FilterSection>
         <FilterButton
           active={filter === "upcoming"}
           onClick={() => setFilter("upcoming")}
         >
           Upcoming
         </FilterButton>
-        {/* <FilterButton
+        <FilterButton
           active={filter === "no-report"}
           onClick={() => setFilter("no-report")}
         >
           Missing Report
-        </FilterButton> */}
+        </FilterButton>
         <FilterButton
           active={filter === "past"}
           onClick={() => setFilter("past")}
         >
           Past
         </FilterButton>
-      </FilterSection>
+      </FilterSection> */}
 
       <Section>
-        <CardHeader>
+        {/* <CardHeader>
           {filter.charAt(0).toUpperCase() + filter.slice(1)} Appointments
-        </CardHeader>
-        <Table>
+        </CardHeader> */}
+        {/* <Table>
           <thead>
             <tr>
               <th>Patient</th>
@@ -147,7 +177,7 @@ export const DoctorHomePage = () => {
               </tr>
             )}
           </tbody>
-        </Table>
+        </Table> */}
       </Section>
 
       <Section>
@@ -159,6 +189,7 @@ export const DoctorHomePage = () => {
                 <th>Day</th>
                 <th>Start</th>
                 <th>End</th>
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -170,7 +201,7 @@ export const DoctorHomePage = () => {
                     {editingIndex === i ? (
                       <TimeInput
                         type="time"
-                        value={slot.startTime}
+                        value={slot.startTime?.slice(0, 5)}
                         onChange={(e) => {
                           const updated = [...editedAvailability];
                           updated[i].startTime = e.target.value;
@@ -178,14 +209,19 @@ export const DoctorHomePage = () => {
                         }}
                       />
                     ) : (
-                      slot.startTime
+                      <TimeInput
+                        type="time"
+                        value={slot.startTime?.slice(0, 5)}
+                        readOnly
+                        disabled
+                      />
                     )}
                   </td>
                   <td>
                     {editingIndex === i ? (
                       <TimeInput
                         type="time"
-                        value={slot.endTime}
+                        value={slot.endTime?.slice(0, 5)}
                         onChange={(e) => {
                           const updated = [...editedAvailability];
                           updated[i].endTime = e.target.value;
@@ -193,18 +229,22 @@ export const DoctorHomePage = () => {
                         }}
                       />
                     ) : (
-                      slot.endTime
+                      <TimeInput
+                        type="time"
+                        value={slot.endTime?.slice(0, 5)}
+                        readOnly
+                        disabled
+                      />
                     )}
                   </td>
                   <td>
                     {editingIndex === i ? (
                       <>
-                        <SaveButton onClick={() => setEditingIndex(null)}>
+                        <SaveButton onClick={(e) => handleTimeChange(e)}>
                           Save
                         </SaveButton>
                         <CancelButton
                           onClick={() => {
-                            setEditedAvailability(mockAvailability); // Reset
                             setEditingIndex(null);
                           }}
                         >
@@ -216,6 +256,27 @@ export const DoctorHomePage = () => {
                         Edit
                       </EditButton>
                     )}
+                  </td>
+                  <td>
+                    <button
+                      onClick={async () => {
+                        const updated = [...editedAvailability];
+                        updated[i].isActive = !updated[i].isActive;
+                        setEditedAvailability(updated);
+
+                        await updateDoctorAvailability(updated[i]);
+                      }}
+                      style={{
+                        backgroundColor: slot.isActive ? "green" : "gray",
+                        color: "white",
+                        border: "none",
+                        padding: "5px 10px",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {slot.isActive ? "Active" : "Inactive"}
+                    </button>
                   </td>
                 </tr>
               ))}

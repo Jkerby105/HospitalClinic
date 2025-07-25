@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FormTitle, SubmitButton } from '../../styles/patient/patientFormStyle';
+import { useNavigate } from 'react-router';
 
 const DriverTable = styled.table`
   width: 100%;
@@ -56,6 +57,7 @@ const ActionButton = styled.button`
 `;
 
 export const AdminViewDriversPage = () => {
+  const navigate = useNavigate();
   const [drivers, setDrivers] = useState([]);
 
   useEffect(() => {
@@ -132,7 +134,7 @@ export const AdminViewDriversPage = () => {
       </DriverTable>
 
       <div style={{ maxWidth: '1200px', margin: '2rem auto' }}>
-        <SubmitButton onClick={() => console.log('Redirect to new driver form')}>
+        <SubmitButton onClick={() => navigate('/admin/create-accounts')}>
           Add New Driver
         </SubmitButton>
       </div>

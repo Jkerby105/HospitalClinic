@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { AdminStore } from "../../store/AdminStore";
 import { FormTitle, SubmitButton } from "../../styles/patient/patientFormStyle";
+import { Link, useNavigate } from "react-router";
 
 const AdminTable = styled.table`
   width: 100%;
@@ -64,33 +66,20 @@ const ActionButton = styled.button`
 
 export const AdminViewAdminsPage = () => {
   // Dummy data
-  const [admins, setAdmins] = useState([
-    {
-      id: 1,
-      firstName: "Alice",
-      lastName: "Smith",
-      phoneNumber: "123-456-7890",
-      email: "alice@example.com",
-      isActive: true,
-    },
-    {
-      id: 2,
-      firstName: "Bob",
-      lastName: "Johnson",
-      phoneNumber: "987-654-3210",
-      email: "bob@example.com",
-      isActive: true,
-    },
-  ]);
+  // const [admins, setAdmins] = useState([]);
+  const {getAllAdmin,admins} = AdminStore();
+
+  const navigate = useNavigate();
 
   // Commented out the data fetching effect
-  /*
+  
   useEffect(() => {
     const fetchAdmins = async () => {
       try {
-        const response = await fetch('/api/admins');
-        const data = await response.json();
-        setAdmins(data);
+        const response = await getAllAdmin();
+        // const data = await response.json();
+        // setAdmins(data);
+        console.log("successfully fetched admins:", response);
       } catch (error) {
         console.error('Error fetching admin list:', error);
       }
@@ -98,19 +87,22 @@ export const AdminViewAdminsPage = () => {
 
     fetchAdmins();
   }, []);
-  */
+  
 
   const handleDeactivate = (adminId) => {
-    console.log("Deactivate admin with ID:", adminId);
-    setAdmins((prev) =>
-      prev.map((admin) =>
-        admin.id === adminId ? { ...admin, isActive: false } : admin
-      )
-    );
+    // console.log("Deactivate admin with ID:", adminId);
+    // setAdmins((prev) =>
+    //   prev.map((admin) =>
+    //     admin.id === adminId ? { ...admin, isActive: false } : admin
+    //   )
+    // );
   };
 
   const handleEdit = (adminId) => {
     console.log("Edit admin with ID:", adminId);
+    // navigate(`/admin/edit-account/${adminId}?&role=admin`);
+    navigate(`/edit-account/${adminId}?&role=admin`);
+
   };
 
   return (
@@ -147,20 +139,14 @@ export const AdminViewAdminsPage = () => {
                     >
                       Edit
                     </ActionButton>
-                    {admin.isActive && (
+                    {/* {admin.isActive && (
                       <ActionButton
                         type="deactivate"
                         onClick={() => handleDeactivate(admin.id)}
                       >
                         Deactivate
                       </ActionButton>
-                    )}
-                    <ActionButton
-                      type="edit"
-                      onClick={() => handleEdit(admin.id)}
-                    >
-                      Info
-                    </ActionButton>
+                    )} */}
                   </ButtonGroup>
                 </TableData>
               </tr>
@@ -170,7 +156,7 @@ export const AdminViewAdminsPage = () => {
       </TableWrapper>
 
       <div style={{ maxWidth: "900px", margin: "2rem auto" }}>
-        <SubmitButton onClick={() => console.log("Redirect to create admin")}>
+        <SubmitButton onClick={() => navigate("/admin/create-accounts") }>
           Add New Admin
         </SubmitButton>
       </div>

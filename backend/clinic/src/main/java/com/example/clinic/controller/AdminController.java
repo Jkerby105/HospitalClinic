@@ -75,37 +75,37 @@ public class AdminController {
     // ------------------- Get By ID --------------------- \\
 
     // yes
-    @GetMapping("/admin/{id}")
+    @GetMapping("/oneAdmin/{id}")
     public ResponseEntity<Optional<Admin>> getAdminById(@PathVariable Long id) {
         return ResponseEntity.ok(adminService.getAdminById(id));
     }
 
     // yes
-    @GetMapping("/doctor/{id}")
+    @GetMapping("/oneDoctor/{id}")
     public ResponseEntity<Optional<Doctor>> getDoctorById(@PathVariable Long id) {
         return ResponseEntity.ok(adminService.getDoctorById(id));
     }
 
     // yes
-    @GetMapping("/patient/{id}")
+    @GetMapping("/onePatient/{id}")
     public ResponseEntity<Optional<Patient>> getPatientById(@PathVariable Long id) {
         return ResponseEntity.ok(adminService.getPatientById(id));
     }
 
     // yes
-    @GetMapping("/driver/{id}")
+    @GetMapping("/oneDriver/{id}")
     public ResponseEntity<Optional<PatientDriver>> getDriverById(@PathVariable Long id) {
         return ResponseEntity.ok(adminService.getDriverById(id));
     }
 
     // yes
-    @GetMapping("/vehicle/{id}")
+    @GetMapping("/oneVehicle/{id}")
     public ResponseEntity<Optional<Vehicle>> getVehicleById(@PathVariable Long id) {
         return ResponseEntity.ok(adminService.getVehicleById(id));
     }
 
     // yes
-    @GetMapping("/appointment/{id}")
+    @GetMapping("/one/Appointment/{id}")
     public ResponseEntity<Optional<Appointment>> getAppointmentById(@PathVariable Long id) {
         return ResponseEntity.ok(adminService.getAppointmentById(id));
     }

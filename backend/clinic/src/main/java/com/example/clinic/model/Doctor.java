@@ -27,6 +27,7 @@ public class Doctor {
     @Column(nullable = false)
     private String lastName;
 
+    @Column(nullable = false)
     private String phoneNumber;
 
     @Column(nullable = false)

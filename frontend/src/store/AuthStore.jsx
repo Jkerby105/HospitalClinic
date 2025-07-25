@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
 
 const BASE_URL = "http://localhost:8080";
 
@@ -13,7 +12,7 @@ export const AuthStore = create((set, get) => ({
   // isLoginIng: false,
 
   checkingAuth: async () => {
-    console.log("Checking authentication status...");
+    // console.log("Checking authentication status...");
 
     try {
       const response = await axios.get(`${BASE_URL}/patient/check-auth`, {
@@ -21,8 +20,8 @@ export const AuthStore = create((set, get) => ({
       });
 
       console.log("Auth check response:", response);
-      console.log(response.data);
-      console.log(response.data.role);
+      // console.log(response.data);
+      // console.log(response.data.role);
 
       if (response.status === 200 && response.data?.authenticated) {
         // Assuming the response contains user data and role
@@ -79,7 +78,7 @@ export const AuthStore = create((set, get) => ({
       toast.error(error.response.data.message);
     }
   },
-  createAccount: async (userData, entity) => {
+  createAccount: async (userData, entity, update = false) => {
     try {
       console.log("Creating account with data:", entity, userData);
 

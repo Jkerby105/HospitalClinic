@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.clinic.model.Doctor;
 import com.example.clinic.model.DoctorAvailability;
+import com.example.clinic.model.DoctorAvailabilityView;
 import com.example.clinic.model.DoctorReport;
 import com.example.clinic.repo.DoctorAvailabilityRepo;
 import com.example.clinic.repo.DoctorRepo;
@@ -35,18 +38,18 @@ public class DoctorService {
 
     // only admin needs to see all this
     // public List<DoctorAvailability> getAllDoctorAvailability() {
-    //     return doctorAvailabilityRepo.findAll();
+    // return doctorAvailabilityRepo.findAll();
     // }
 
     // public List<DoctorReport> getAllDoctorReportRepo() {
-    //     return doctorReportRepo.findAll();
+    // return doctorReportRepo.findAll();
     // }
 
     // Get List
 
     // see there upcoming appointments
 
-    public List<DoctorAvailability> getDoctorAvailabilities(Long id) {
+    public List<DoctorAvailabilityView> getDoctorAvailabilities(Long id) {
         return doctorAvailabilityRepo.findByDoctorId(id);
     }
 
@@ -55,13 +58,34 @@ public class DoctorService {
     }
 
     // Create | Update
-    
+
     public DoctorReport saveDoctorReport(DoctorReport report) {
         return doctorReportRepo.save(report);
     }
 
     public DoctorAvailability saveDoctorAvailability(DoctorAvailability report) {
         return doctorAvailabilityRepo.save(report);
+    }
+
+    public Optional<Doctor> getDoctorByUsername(String username) {
+        return Optional.ofNullable(doctorRepo.findByUsername(username));
+    }
+
+    public DoctorAvailability setDoctorAvailability(DoctorAvailability availability) {
+
+              System.out.println("Updated Slot: " + availability + "----------------------------++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+        DoctorAvailability existingSlot = doctorAvailabilityRepo.findById(availability.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Availability slot not found"));
+
+
+
+        existingSlot.setStartTime(availability.getStartTime());
+        existingSlot.setEndTime(availability.getEndTime());
+        existingSlot.setIsActive(availability.getIsActive());
+
+        return doctorAvailabilityRepo.save(existingSlot);
+
     }
 
 }

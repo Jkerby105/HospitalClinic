@@ -5,6 +5,7 @@ import {
   FormTitle,
   SubmitButton
 } from '../../styles/patient/patientFormStyle';
+import { useNavigate } from 'react-router';
 
 const DoctorTable = styled.table`
   width: 100%;
@@ -60,6 +61,7 @@ const ActionButton = styled.button`
 `;
 
 export const AdminViewDoctorPage = () => {
+  const navigate = useNavigate();
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
@@ -132,7 +134,7 @@ export const AdminViewDoctorPage = () => {
       </DoctorTable>
 
       <div style={{ maxWidth: '1000px', margin: '2rem auto' }}>
-        <SubmitButton onClick={() => console.log('Redirect to new doctor form')}>
+        <SubmitButton onClick={() => navigate('/admin/create-accounts')}>
           Add New Doctor
         </SubmitButton>
       </div>

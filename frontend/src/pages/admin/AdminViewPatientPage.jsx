@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
 
 const TableWrapper = styled.div`
   padding: 2rem;
@@ -85,7 +84,7 @@ export const AdminViewPatientPage = () => {
           </tr>
         </thead>
         <tbody>
-          {patients.map((p) => (
+          {/* {patients.map((p) => (
             <tr key={p.id}>
               <Td>{p.firstName}</Td>
               <Td>{p.lastName}</Td>
@@ -104,7 +103,7 @@ export const AdminViewPatientPage = () => {
                 <ActionButton type="delete" onClick={() => handleDelete(p.id)}>Delete</ActionButton>
               </Td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </Table>
     </TableWrapper>

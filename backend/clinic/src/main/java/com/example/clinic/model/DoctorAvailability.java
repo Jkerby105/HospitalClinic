@@ -32,4 +32,8 @@ public class DoctorAvailability {
 
     @Column(nullable = false)
     private LocalTime endTime;
+
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
 }

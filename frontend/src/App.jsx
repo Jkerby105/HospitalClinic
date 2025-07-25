@@ -8,11 +8,10 @@ import { FooterPage } from "./components/other/FooterPage";
 import { AboutUsPage } from "./components/other/AboutUsPage";
 import { PrivacyPolicy } from "./components/other/PrivacyPolicy";
 // - ------------------------------------------------------------------
-  import { CreateAccount } from "./components/patient/CreateAccount";
-  import { CreateAccounts } from "./components/admin/CreateAccounts";
+import { CreateAccount } from "./components/patient/CreateAccount";
+import { CreateAccounts } from "./components/admin/CreateAccounts";
 // - ------------------------------------------------------------------
 import { checkAuthLoader } from "./utils/checkAuthLoader";
-
 
 // Root
 import { LoginCreateRoot } from "./pages/root/LoginCreateRoot";
@@ -25,6 +24,7 @@ import { DoctorRoot } from "./pages/root/DoctorRoot";
 // Admin
 import { AdminHomePage } from "./pages/admin/AdminHomePage";
 import { CreateAccountsPage } from "./pages/admin/create/CreateAccountsPage";
+import { EditAccountPage } from "./pages/admin/create/EditAccountPage";
 import { AdminViewAdminsPage } from "./pages/admin/AdminViewAdminsPage";
 import { AdminViewDoctorPage } from "./pages/admin/AdminViewDoctorPage";
 import { AdminViewDriversPage } from "./pages/admin/AdminViewDriversPage";
@@ -69,20 +69,20 @@ function App() {
         { path: "Login", element: <LoginPage /> },
         // { path: "CreateAccount", element: <CreateAccountPage /> },
         { path: "AboutUs", element: <AboutUsPage /> },
-        {path: "Contact", element: <ContactPage /> },
-        {path: "Footer", element: <FooterPage /> },
-        {path: "PrivacyPolicy", element: <PrivacyPolicy /> },
-
-        // ----------- testing only ---------------
-        {path: "testCreate", element: <CreateAccount /> },
-        {path: "testCreateAccounts", element: <CreateAccounts /> },
-
+        { path: "Contact", element: <ContactPage /> },
+        { path: "Footer", element: <FooterPage /> },
+        { path: "PrivacyPolicy", element: <PrivacyPolicy /> },
+        // { path: "create-Account", element: <CreateAccount /> },
+         { path: "past-appointments", element: <PatientPastAppointmentPage /> },
+        { path: "appointment", element: <PatientAppointmentPage /> },
+        { path: "create-account", element: <PatientAccountCreatePate /> },
+        { path: "edit-account/:id", element: <EditAccountPage /> },
       ],
     },
 
     {
       errorElement: <ErrorPage />,
-      //  loader: checkAuthLoader,
+      loader: checkAuthLoader,
       element: <AdminRoot />,
       path: "admin",
       children: [
@@ -96,22 +96,21 @@ function App() {
         { path: "vehicles", element: <AdminViewVehiclesPage /> },
         // -------------------------- \\
 
-        {path: "appointments", element: <AdminViewAppointmentPage /> },
+        { path: "appointments", element: <AdminViewAppointmentPage /> },
 
         // -------------------------- \\
-        {path: "create-accounts", element: <CreateAccountsPage /> },
+        { path: "create-accounts", element: <CreateAccountsPage /> },
+        // {path: "edit-account/:id", element: <EditAccountPage /> },
         // -------------------------- \\
 
-
-        {path: "availability", element: <AdminViewDoctorAvailabilityPage /> },
+        { path: "availability", element: <AdminViewDoctorAvailabilityPage /> },
 
         // -------------------------- \\
-        {path: "view-doctor/:id", element: <ViewDoctor /> },
-        {path: "view-driver/:id", element: <ViewDriver /> },
-        {path: "view-admin/:id", element: <ViewAdmin /> },
-        {path: "view-vehicle/:id", element: <ViewVehicle /> },
+        { path: "view-doctor/:id", element: <ViewDoctor /> },
+        { path: "view-driver/:id", element: <ViewDriver /> },
+        { path: "view-admin/:id", element: <ViewAdmin /> },
+        { path: "view-vehicle/:id", element: <ViewVehicle /> },
         // -------------------------- \\
-
       ],
     },
 
@@ -122,21 +121,21 @@ function App() {
       path: "doctor",
       children: [
         { index: true, element: <DoctorHomePage /> },
-        { path: "view-day/", element: <DoctorViewDayPage /> }, 
+        { path: "view-day/", element: <DoctorViewDayPage /> },
         { path: "view-report", element: <DoctorViewReportPage /> },
         // {path: "view-doctor/:id", element: <ViewDoctor /> },
-        // { path: "view-report/:id", element: <DoctorViewOneReportPage /> }, 
+        // { path: "view-report/:id", element: <DoctorViewOneReportPage /> },
       ],
     },
 
     {
       errorElement: <ErrorPage />,
-       loader: checkAuthLoader,
+      loader: checkAuthLoader,
       element: <DriverRoot />,
       path: "driver",
       children: [
         { index: true, element: <DriverHomePage /> },
-        // { path: "view-two/:id", element: <DriverViewTwoPage /> }, 
+        // { path: "view-two/:id", element: <DriverViewTwoPage /> },
       ],
     },
 
@@ -147,10 +146,9 @@ function App() {
       path: "patient",
       children: [
         { index: true, element: <PatientHomePage /> },
-        {path: "create-account", element: <PatientAccountCreatePate /> },
-        { path: "appointment", element: <PatientAppointmentPage /> }, 
-        {path: "past-appointments", element: <PatientPastAppointmentPage /> },
-        // { path: "appointment-report/:id", element: <PatientAppointmentReportPage /> }, 
+        // { path: "appointment", element: <PatientAppointmentPage /> },
+        // { path: "past-appointments", element: <PatientPastAppointmentPage /> },
+        // { path: "appointment-report/:id", element: <PatientAppointmentReportPage /> },
         // { path: "find-appointment", element: <PatientFindAppointmentPage /> },
         { path: "info", element: <PatientInfoPage /> },
       ],

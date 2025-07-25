@@ -23,11 +23,11 @@ public class Appointment {
     private Doctor doctor;
 
     @ManyToOne
-    @JoinColumn(name = "patientDriver_id")
+    @JoinColumn(name = "patientDriver_id", nullable = true)
     private PatientDriver patientDriver;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_id")
+    @JoinColumn(name = "vehicle_id", nullable = true)
     private Vehicle vehicle;
 
     @Column(nullable = false)
@@ -37,9 +37,9 @@ public class Appointment {
     private String reasonForVisit;
 
     @Column(nullable = false)
-    // private LocalDateTime endTime = starTime.plusMinutes(30);
-    // private LocalDateTime endTime = starTime.plusMinutes(30);
     private LocalDateTime endTime;
+    // private LocalDateTime endTime = starTime.plusMinutes(30);
+    // private LocalDateTime endTime = starTime.plusMinutes(30);
 
 
     @Enumerated(EnumType.STRING)

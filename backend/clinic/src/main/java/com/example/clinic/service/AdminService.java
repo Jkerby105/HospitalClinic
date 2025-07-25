@@ -1,6 +1,8 @@
 package com.example.clinic.service;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,30 +135,66 @@ public class AdminService {
         return adminRepo.save(admin);
     }
 
-    // Doctor
+
+
     public Doctor createOrUpdateDoctor(Doctor doctor) {
+    boolean isNew = (doctor.getId() == 0); // or doctor.getId() == null
+
+    doctor.setIsActive(true);
+    
+    if (doctor.getPassword() != null) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+        doctor.setPassword(encoder.encode(doctor.getPassword()));
+    }
+    
+    Doctor savedDoctor = doctorRepo.save(doctor);
+
+    // Create default availability if doctor is newly created
+    if (isNew) {
+        createDefaultAvailabilityForDoctor(savedDoctor);
+    }
+
+    return savedDoctor;
+}
+
+
+    public void createDefaultAvailabilityForDoctor(Doctor doctor) {
+        for (DayOfWeek day : DayOfWeek.values()) {
+            DoctorAvailability availability = new DoctorAvailability();
+            availability.setDoctor(doctor);
+            availability.setDayOfWeek(day);
+            availability.setStartTime(LocalTime.MIDNIGHT); // 00:00
+            availability.setEndTime(LocalTime.MIDNIGHT); // 00:00
+            doctorAvailabilityRepo.save(availability);
+        }
+    }
+
+    public Doctor UpdateDoctor(Doctor doctor) {
+
         doctor.setIsActive(true);
         if (doctor.getPassword() != null) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
             doctor.setPassword(encoder.encode(doctor.getPassword()));
         }
         return doctorRepo.save(doctor);
+
     }
 
     // PatientDriver with two images: driver and license
-    // public PatientDriver createOrUpdateDriver(PatientDriver driver, MultipartFile driverImage,
-    //         MultipartFile licenseImage) throws IOException {
-    //     if (driverImage != null && !driverImage.isEmpty()) {
-    //         driver.setDriverImageName(driverImage.getOriginalFilename());
-    //         driver.setDriverImageType(driverImage.getContentType());
-    //         driver.setDriverImageData(driverImage.getBytes());
-    //     }
-    //     if (licenseImage != null && !licenseImage.isEmpty()) {
-    //         driver.setLicenseImageName(licenseImage.getOriginalFilename());
-    //         driver.setLicenseImageType(licenseImage.getContentType());
-    //         driver.setLicenseImageData(licenseImage.getBytes());
-    //     }
-    //     return patientDriverRepo.save(driver);
+    // public PatientDriver createOrUpdateDriver(PatientDriver driver, MultipartFile
+    // driverImage,
+    // MultipartFile licenseImage) throws IOException {
+    // if (driverImage != null && !driverImage.isEmpty()) {
+    // driver.setDriverImageName(driverImage.getOriginalFilename());
+    // driver.setDriverImageType(driverImage.getContentType());
+    // driver.setDriverImageData(driverImage.getBytes());
+    // }
+    // if (licenseImage != null && !licenseImage.isEmpty()) {
+    // driver.setLicenseImageName(licenseImage.getOriginalFilename());
+    // driver.setLicenseImageType(licenseImage.getContentType());
+    // driver.setLicenseImageData(licenseImage.getBytes());
+    // }
+    // return patientDriverRepo.save(driver);
     // }
 
     // Vehicle with image
@@ -170,12 +208,12 @@ public class AdminService {
         return vehicleRepo.save(vehicle);
     }
 
-    //    public User saveUser(User user) {
-//         user.setPassword(encoder.encode(user.getPassword()));
-//         System.out.println(user.getPassword());
-//         System.out.println(user.toString());
-//         return repo.save(user);
-//     }
+    // public User saveUser(User user) {
+    // user.setPassword(encoder.encode(user.getPassword()));
+    // System.out.println(user.getPassword());
+    // System.out.println(user.toString());
+    // return repo.save(user);
+    // }
 
     public PatientDriver createOrUpdatePatientDriver(PatientDriver driver,
             MultipartFile driverImage,
@@ -191,8 +229,8 @@ public class AdminService {
             driver.setLicenseImageType(licenseImage.getContentType());
             driver.setLicenseImageData(licenseImage.getBytes());
         }
-         
-    if (driver.getPassword() != null) {
+
+        if (driver.getPassword() != null) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
             driver.setPassword(encoder.encode(driver.getPassword()));
         }
