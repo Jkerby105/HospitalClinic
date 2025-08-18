@@ -15,7 +15,7 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = true)
     private Patient patient;
 
     @ManyToOne
@@ -30,17 +30,14 @@ public class Appointment {
     @JoinColumn(name = "vehicle_id", nullable = true)
     private Vehicle vehicle;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime startTime;
 
     @Column(length = 500, nullable = true)
     private String reasonForVisit;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime endTime;
-    // private LocalDateTime endTime = starTime.plusMinutes(30);
-    // private LocalDateTime endTime = starTime.plusMinutes(30);
-
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -50,6 +47,8 @@ public class Appointment {
     @Column(nullable = false)
     private AppointmentStatus status;
 
+    @Column(nullable = true)
+    private String appointmentDay;
     // ------------
 
     @Column(nullable = true)

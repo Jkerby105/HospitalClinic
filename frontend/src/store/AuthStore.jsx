@@ -20,21 +20,21 @@ export const AuthStore = create((set, get) => ({
       });
 
       console.log("Auth check response:", response);
-      // console.log(response.data);
+      console.log(response.data);
       // console.log(response.data.role);
 
       if (response.status === 200 && response.data?.authenticated) {
         // Assuming the response contains user data and role
-        console.log("User data from response:", response.data);
+        // console.log("User data from response:", response.data);
         set({
           user: response.data.username,
           isAuthenticated: true,
           role: response.data.role, // ← dynamic
         });
-        console.log("User is authenticated:", response.data.username);
+        // console.log("User is authenticated:", response.data.username);
       } else {
         set({ isAuthenticated: false, user: null, role: null });
-        console.log("User not authenticated");
+        // console.log("User not authenticated");
       }
     } catch (err) {
       set({ isAuthenticated: false, user: null, role: null });

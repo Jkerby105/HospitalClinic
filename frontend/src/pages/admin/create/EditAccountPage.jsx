@@ -20,12 +20,12 @@ export const EditAccountPage = () => {
   const [searchParams] = useSearchParams();
 
   const { createAccount } = AuthStore();
-  const {getOneAdmin} = AdminStore();
+  const {getOneAdmin,getOneDoctor,getOneDriver,getOneVehicle} = AdminStore();
 
   const editRole = searchParams.get("role") || null;
-//   const editId = searchParams.get("id");
-const editId = useParams();
-const id = editId.id || null;
+//   const role = searchParams.get("id");
+const role = useParams();
+const id = role.id || null;
 console.log(editRole + " -------------------");
 console.log(id + " -------------------");
 
@@ -35,11 +35,21 @@ console.log(id + " -------------------");
   // 🔄 Load data on mount
   useEffect(() => {
     const fetchData = async () => {
-    //   if (!editId.id) return;
-
+    //   if (!role.id) return;
+      console.log("what is going wrong not sure");
       try {
-        console.log("sending request to get data for ID:", id);
-        const data = await getOneAdmin(id); // 👈 Fetch based on ID and role
+        let data;
+
+        if(editRole === "admin")
+         data = await getOneAdmin(id);
+        if(editRole === "doctor") 
+         data = await getOneDoctor(id);
+        if(editRole === "driver")
+         data = await getOneDriver(id);
+        if(editRole == "vehicle")
+          data = await getOneVehicle(id);
+
+
         console.log("Fetched data:", data);
         console.log(data + " -------------------");
         if (!data) throw new Error("No data found");
@@ -102,8 +112,8 @@ console.log(id + " -------------------");
             {input("lastName", "Last Name *")}
             {input("phoneNumber", "Phone Number *")}
             {input("email", "Email *", "email")}
-            {input("username", "Username *")}
-            {input("password", "Password *", "password")}
+            {/* {input("username", "Username *")}
+            {input("password", "Password *", "password")} */}
             {editRole === "doctor" && (
               <>
                 {input("credentials", "Credentials *")}

@@ -76,10 +76,10 @@ export const AdminViewAdminsPage = () => {
   useEffect(() => {
     const fetchAdmins = async () => {
       try {
-        const response = await getAllAdmin();
+        await getAllAdmin();
         // const data = await response.json();
         // setAdmins(data);
-        console.log("successfully fetched admins:", response);
+        // console.log("successfully fetched admins:", response);
       } catch (error) {
         console.error('Error fetching admin list:', error);
       }

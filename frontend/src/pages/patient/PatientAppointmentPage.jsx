@@ -1,33 +1,29 @@
-import React, { useState } from 'react';
-import {Form,Input,Label,PickupSection,Select,SlotButton,SubmitButton,TextArea,TimeSlots,Title,TogglePickup,Wrapper} from '../../styles/patient/CreateAppointmentStyle';
-// import axios from 'axios'; // Will be used for fetching later
 
-const doctors = [
-  { id: 1, name: 'Dr. Alice Johnson' },
-  { id: 2, name: 'Dr. Bob Smith' },
-];
+import React, { useState, useEffect } from 'react';
+import { PatientStore } from '../../store/PatientStore';
+import {
+  Form, Input, Label, PickupSection, Select, SlotButton, SubmitButton,
+  TextArea, TimeSlots, Title, TogglePickup, Wrapper
+} from '../../styles/patient/CreateAppointmentStyle';
 
-const availability = {
-  1: {
-    Monday: ['09:00', '09:30', '10:00', '10:30'],
-    Saturday: ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'],
-  },
-  2: {
-    Tuesday: ['13:00', '13:30', '14:00', '14:30'],
-  },
-};
-
-const takenSlots = {
-  '1-Saturday': ['14:30', '16:00'],
-};
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
+
+
 export const PatientAppointmentPage = () => {
+  const { getDoctors, getDoctorsAvailability,postAppointment } = PatientStore();
+  const [doctors, setDoctors] = useState([]);
+
   const [selectedDoctor, setSelectedDoctor] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
   const [selectedSlot, setSelectedSlot] = useState('');
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [takenSlots, setTakenSlots] = useState([]);
+
   const [reason, setReason] = useState('');
+  const [isFollowUp, setIsFollowUp] = useState(null);
+
   const [pickupInfoVisible, setPickupInfoVisible] = useState(false);
   const [pickupInfo, setPickupInfo] = useState({
     address: '',
@@ -37,14 +33,108 @@ export const PatientAppointmentPage = () => {
     notes: '',
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({ selectedDoctor, selectedDay, selectedSlot, reason, pickupInfo });
+  if(selectedDoctor){
+    console.log(selectedDoctor);
+    console.log("doctor selected");
+  }
+  if(selectedDay){
+    console.log(selectedDay);
+    console.log("day selected");
+  }
+  if(selectedSlot){
+    console.log(selectedSlot);
+      console.log("slot selected");
+  }
+  if(isFollowUp){
+    console.log(isFollowUp);
+    console.log("is selected");
+  }
+
+  // Fetch doctors on mount
+  useEffect(() => {
+    async function fetchDoctors() {
+      const res = await getDoctors();
+      setDoctors(res);
+    }
+    fetchDoctors();
+  }, []);
+
+  // Fetch slot availability when doctor or day changes
+  useEffect(() => {
+    if (!selectedDoctor || !selectedDay) return;
+
+    async function fetchAvailability() {
+      try {
+        const data = await getDoctorsAvailability(selectedDoctor, selectedDay);
+        setAvailableSlots(data.availableSlots || []);
+        setTakenSlots(data.takenSlots || []);
+        setSelectedSlot('');
+      } catch (error) {
+        console.error('Failed to fetch availability:', error);
+      }
+    }
+
+    fetchAvailability();
+  }, [selectedDoctor, selectedDay]);
+
+
+const SLOT_MINUTES = 20;
+
+const formatEndTime = (startTime) => {
+  const [hourStr, minuteStr] = startTime.split(':');
+  let hour = parseInt(hourStr, 10);
+  let minute = parseInt(minuteStr, 10);
+
+  minute += SLOT_MINUTES;           
+  if (minute >= 60) {
+    hour += 1;
+    minute -= 60;
+  }
+
+  return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+};
+
+
+
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  // If pickup info is visible, validate all fields
+  if (pickupInfoVisible) {
+    const { address, city, state, zip } = pickupInfo;
+    if (!address || !city || !state || !zip) {
+      alert("Please fill out all required pickup fields.");
+      return;
+    }
+  }
+    
+  const appointment = {
+    doctor_id: selectedDoctor,
+    appointment_day: selectedDay,
+    start_time: selectedSlot,
+    reason_for_visit: reason,
+    pickup_address_line: pickupInfo.address,
+    pickup_city: pickupInfo.city,
+    pickup_state: pickupInfo.state,
+    pickup_zip_code: pickupInfo.zip,
+    pickup_notes: pickupInfo.notes,
+    picked_up: pickupInfoVisible, // ✅ boolean
   };
 
-  const doctorAvailability = availability[selectedDoctor] || {};
-  const availableSlots = doctorAvailability[selectedDay] || [];
-  const taken = takenSlots[`${selectedDoctor}-${selectedDay}`] || [];
+  console.log("Submitting appointment:", appointment);
+
+  await postAppointment(appointment);
+};
+
+
+  const to12HourFormat = (time24) => {
+  const [hourStr, minute] = time24.split(':');
+  let hour = parseInt(hourStr, 10);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  hour = hour % 12 || 12; // converts 0 to 12
+  return `${hour}:${minute} ${ampm}`;
+};
+
 
   return (
     <Wrapper>
@@ -55,7 +145,7 @@ export const PatientAppointmentPage = () => {
         <Select value={selectedDoctor} onChange={(e) => setSelectedDoctor(e.target.value)} required>
           <option value="">-- Select Doctor --</option>
           {doctors.map((doc) => (
-            <option key={doc.id} value={doc.id}>{doc.name}</option>
+            <option key={doc.id} value={doc.id}>{doc.firstName}</option>
           ))}
         </Select>
 
@@ -68,24 +158,53 @@ export const PatientAppointmentPage = () => {
         </Select>
 
         <Label>Available Time Slots</Label>
+
         <TimeSlots>
-          {availableSlots.map((slot) => (
-            <SlotButton
-              key={slot}
-              disabled={taken.includes(slot)}
-              $selected={slot === selectedSlot}
-              onClick={() => setSelectedSlot(slot)}
-              type="button"
-            >
-              {taken.includes(slot) ? `${slot} (Taken)` : `${slot} - ${(parseInt(slot.split(':')[0]) + (parseInt(slot.split(':')[1]) + 30) / 60).toFixed(2).replace('.', ':')} `}
-            </SlotButton>
-          ))}
-        </TimeSlots>
+  {availableSlots.map((slot) => {
+    const cleanTime = slot.slice(0, 5);
+    const isTaken = takenSlots.includes(slot);
+    return (
+      <SlotButton
+        key={slot}
+        disabled={isTaken}
+        $selected={slot === selectedSlot}
+        onClick={() => setSelectedSlot(slot)}
+        type="button"
+      >
+        {isTaken
+          ? `${to12HourFormat(cleanTime)} (Taken)`
+          : `${to12HourFormat(cleanTime)} - ${to12HourFormat(formatEndTime(cleanTime))}`}
+      </SlotButton>
+    );
+  })}
+</TimeSlots>
+
+
+        <Label>Is this a follow-up appointment?</Label>
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+          <SlotButton
+            type="button"
+            $selected={isFollowUp === true}
+            onClick={() => setIsFollowUp(true)}
+          >
+            Yes
+          </SlotButton>
+          <SlotButton
+            type="button"
+            $selected={isFollowUp === false}
+            onClick={() => setIsFollowUp(false)}
+          >
+            No
+          </SlotButton>
+        </div>
 
         <Label>Reason for Visit</Label>
-        <TextArea value={reason} onChange={(e) => setReason(e.target.value)} />
+        <TextArea
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+        />
 
-        <TogglePickup onClick={() => setPickupInfoVisible((prev) => !prev)}>
+        <TogglePickup onClick={() => setPickupInfoVisible(prev => !prev)}>
           {pickupInfoVisible ? 'Hide Pickup Info' : 'Add Pickup Info'}
         </TogglePickup>
 
@@ -119,8 +238,13 @@ export const PatientAppointmentPage = () => {
           </PickupSection>
         )}
 
-        <SubmitButton type="submit" disabled={!selectedDoctor || !selectedDay || !selectedSlot}>Create Appointment</SubmitButton>
+        <SubmitButton
+          type="submit"
+          disabled={!selectedDoctor || !selectedDay || !selectedSlot || isFollowUp === null}
+        >
+          Create Appointment
+        </SubmitButton>
       </Form>
     </Wrapper>
   );
-}
+};

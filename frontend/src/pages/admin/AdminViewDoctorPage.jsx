@@ -6,6 +6,7 @@ import {
   SubmitButton
 } from '../../styles/patient/patientFormStyle';
 import { useNavigate } from 'react-router';
+import { AdminStore } from '../../store/AdminStore';
 
 const DoctorTable = styled.table`
   width: 100%;
@@ -62,14 +63,16 @@ const ActionButton = styled.button`
 
 export const AdminViewDoctorPage = () => {
   const navigate = useNavigate();
-  const [doctors, setDoctors] = useState([]);
+  // const [doctors, setDoctors] = useState([]);
+  const { getAllDoctors, doctors} = AdminStore();
 
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const res = await fetch('/api/doctors');
-        const data = await res.json();
-        setDoctors(data);
+        // const res = await fetch('/api/doctors');
+         await getAllDoctors();
+        // const data = await res.json();
+        // setDoctors(data);
       } catch (err) {
         console.error('Error fetching doctors:', err);
       }
@@ -77,9 +80,12 @@ export const AdminViewDoctorPage = () => {
     fetchDoctors();
   }, []);
 
-  const handleEdit = (id) => {
-    console.log('Edit doctor ID:', id);
-  };
+
+  const handleEdit = (doctorId) => {
+    console.log("Edit doctor with ID:", doctorId);
+    // navigate(`/admin/edit-account/${doctorId}?&role=admin`);
+    navigate(`/edit-account/${doctorId}?&role=doctor`);
+  }
 
   const handleDelete = (id) => {
     console.log('Delete doctor ID:', id);
@@ -121,11 +127,11 @@ export const AdminViewDoctorPage = () => {
               <TableData>
                 <ButtonGroup>
                   <ActionButton type="edit" onClick={() => handleEdit(doctor.id)}>Edit</ActionButton>
-                  {doctor.isActive && (
+                  {/* {doctor.isActive && (
                     <ActionButton type="deactivate" onClick={() => handleDeactivate(doctor.id)}>Deactivate</ActionButton>
                   )}
                   <ActionButton type="info" onClick={() => handleInfo(doctor.id)}>Info</ActionButton>
-                  <ActionButton type="delete" onClick={() => handleDelete(doctor.id)}>Delete</ActionButton>
+                  <ActionButton type="delete" onClick={() => handleDelete(doctor.id)}>Delete</ActionButton> */}
                 </ButtonGroup>
               </TableData>
             </tr>

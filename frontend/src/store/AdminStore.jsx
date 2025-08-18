@@ -28,10 +28,10 @@ export const AdminStore = create((set, get) => ({
   },
   getAllDoctors: async () => {
     try{
-      const response = await axios.get(`${BASE_URL}/admin/get-all-doctors`, {
+      const response = await axios.get(`${BASE_URL}/admin/doctors`, {
         withCredentials: true,
       });
-      console.log("Doctor data fetched successfully:", response.data);
+      // console.log("Doctor data fetched successfully:", response.data);
       set({ doctors: response.data });
     } catch (error) {
       console.error("Error fetching doctor data:", error);
@@ -40,7 +40,7 @@ export const AdminStore = create((set, get) => ({
   },
   getAllDrivers: async () => {
     try{
-      const response = await axios.get(`${BASE_URL}/admin/get-all-drivers`, {
+      const response = await axios.get(`${BASE_URL}/admin/drivers`, {
         withCredentials: true,
       });
       console.log("Driver data fetched successfully:", response.data);
@@ -53,7 +53,7 @@ export const AdminStore = create((set, get) => ({
   },
   getAllVehicles: async () => {
     try{
-      const response = await axios.get(`${BASE_URL}/admin/get-all-vehicles`, {
+      const response = await axios.get(`${BASE_URL}/admin/vehicles`, {
         withCredentials: true,
       });
       console.log("Vehicle data fetched successfully:", response.data);
@@ -102,7 +102,7 @@ export const AdminStore = create((set, get) => ({
   },
   getOneDoctor: async (id) => {
     try{
-      const response = await axios.get(`${BASE_URL}/admin/get-doctor/${id}`, {
+      const response = await axios.get(`${BASE_URL}/admin/oneDoctor/${id}`, {
         withCredentials: true,
       });
       console.log("Single doctor data fetched successfully:", response.data);
@@ -114,7 +114,7 @@ export const AdminStore = create((set, get) => ({
   },
   getOneDriver: async (id) => {
     try{
-      const response = await axios.get(`${BASE_URL}/admin/get-driver/${id}`, {
+      const response = await axios.get(`${BASE_URL}/admin/oneDriver/${id}`, {
         withCredentials: true,
       });
       console.log("Single driver data fetched successfully:", response.data);
@@ -126,7 +126,7 @@ export const AdminStore = create((set, get) => ({
   },
   getOneVehicle: async (id) => {
     try{
-      const response = await axios.get(`${BASE_URL}/admin/get-vehicle/${id}`, {
+      const response = await axios.get(`${BASE_URL}/admin/oneVehicle/${id}`, {
         withCredentials: true,
       });
       console.log("Single vehicle data fetched successfully:", response.data);

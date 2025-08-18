@@ -42,14 +42,27 @@ export const TimeSlots = styled.div`
   gap: 0.5rem;
 `;
 
+// export const SlotButton = styled.button`
+//   padding: 0.5rem 1rem;
+//   border-radius: 6px;
+//   border: none;
+//   background-color: ${({ $selected, theme }) => $selected ? theme.primary : theme.button};
+//   color: ${({ theme }) => theme.buttonText};
+//   opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
+//   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+// `;
+
 export const SlotButton = styled.button`
   padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: none;
-  background-color: ${({ $selected, theme }) => $selected ? theme.primary : theme.button};
-  color: ${({ theme }) => theme.buttonText};
-  opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
+  margin: 4px;
+  border: 1px solid #ccc;
+  background-color: ${({ $selected }) => ($selected ? '#007bff' : '#fff')};
+  color: ${({ $selected }) => ($selected ? '#fff' : '#333')};
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  border-radius: 4px;
+  &:hover {
+    background-color: ${({ $selected }) => ($selected ? '#0056b3' : '#f0f0f0')};
+  }
 `;
 
 export const TextArea = styled.textarea`
@@ -89,16 +102,12 @@ export const SubmitButton = styled.button`
   margin-top: 1.5rem;
   width: 100%;
   padding: 0.75rem;
-  background-color: ${({ theme }) => theme.primary};
-  color: white;
+  background-color: lightblue;
+  color: black;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
 `;

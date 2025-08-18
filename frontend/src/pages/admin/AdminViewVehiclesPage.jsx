@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FormTitle, SubmitButton } from '../../styles/patient/patientFormStyle';
 import { useNavigate } from 'react-router';
+import { AdminStore } from '../../store/AdminStore';
 
 const VehicleTable = styled.table`
   width: 100%;
@@ -60,14 +61,17 @@ const ActionButton = styled.button`
 
 export const AdminViewVehiclesPage = () => {
   const navigate = useNavigate();
-  const [vehicles, setVehicles] = useState([]);
+  // const [vehicles, setVehicles] = useState([]);
+
+   const { getAllVehicles,vehicles} = AdminStore();
 
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const res = await fetch('/api/vehicles'); // Replace with your actual endpoint
-        const data = await res.json();
-        setVehicles(data);
+        const res = await fetch('/api/vehicles'); 
+        await getAllVehicles();
+        // const data = await res.json();
+        // setVehicles(data);
       } catch (err) {
         console.error('Error fetching vehicles:', err);
       }
@@ -83,13 +87,15 @@ export const AdminViewVehiclesPage = () => {
     );
   };
 
-  const handleEdit = (id) => {
-    console.log('Edit vehicle ID:', id);
+  const handleEdit = (vehicleId) => {
+           console.log("Edit driver with ID:", vehicleId);
+    // navigate(`/admin/edit-account/${doctorId}?&role=vehicle`);
+    navigate(`/edit-account/${vehicleId}?&role=vehicle`);
   };
 
-  const handleDelete = (id) => {
-    console.log('Delete vehicle ID:', id);
-  };
+  // const handleDelete = (id) => {
+  //   console.log('Delete vehicle ID:', id);
+  // };
 
   return (
     <div>
@@ -122,7 +128,7 @@ export const AdminViewVehiclesPage = () => {
                 <TableData>
                   <ButtonGroup>
                     <ActionButton type="edit" onClick={() => handleEdit(vehicle.id)}>Edit</ActionButton>
-                    <ActionButton type="delete" onClick={() => handleDelete(vehicle.id)}>Delete</ActionButton>
+                    {/* <ActionButton type="delete" onClick={() => handleDelete(vehicle.id)}>Delete</ActionButton> */}
                   </ButtonGroup>
                 </TableData>
               </tr>

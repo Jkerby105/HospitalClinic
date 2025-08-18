@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FormTitle, SubmitButton } from '../../styles/patient/patientFormStyle';
 import { useNavigate } from 'react-router';
+import { AdminStore } from '../../store/AdminStore';
 
 const DriverTable = styled.table`
   width: 100%;
@@ -58,14 +59,16 @@ const ActionButton = styled.button`
 
 export const AdminViewDriversPage = () => {
   const navigate = useNavigate();
-  const [drivers, setDrivers] = useState([]);
+  // const [drivers, setDrivers] = useState([]);
+  const { getAllDrivers,drivers} = AdminStore();
 
   useEffect(() => {
     const fetchDrivers = async () => {
       try {
-        const res = await fetch('/api/patient-drivers'); // Adjust this endpoint
-        const data = await res.json();
-        setDrivers(data);
+        // const res = await fetch('/api/patient-drivers'); // Adjust this endpoint
+        await getAllDrivers();
+        // const data = await res.json();
+        // setDrivers(data);
       } catch (err) {
         console.error('Error fetching patient drivers:', err);
       }
@@ -81,13 +84,15 @@ export const AdminViewDriversPage = () => {
     );
   };
 
-  const handleEdit = (id) => {
-    console.log('Edit driver ID:', id);
+  const handleEdit = (driverId) => {
+        console.log("Edit driver with ID:", driverId);
+    // navigate(`/admin/edit-account/${doctorId}?&role=admin`);
+    navigate(`/edit-account/${driverId}?&role=driver`);
   };
 
-  const handleDelete = (id) => {
-    console.log('Delete driver ID:', id);
-  };
+  // const handleDelete = (id) => {
+  //   console.log('Delete driver ID:', id);
+  // };
 
   return (
     <div>
@@ -124,7 +129,7 @@ export const AdminViewDriversPage = () => {
                 <TableData>
                   <ButtonGroup>
                     <ActionButton type="edit" onClick={() => handleEdit(driver.id)}>Edit</ActionButton>
-                    <ActionButton type="delete" onClick={() => handleDelete(driver.id)}>Delete</ActionButton>
+                    {/* <ActionButton type="delete" onClick={() => handleDelete(driver.id)}>Delete</ActionButton> */}
                   </ButtonGroup>
                 </TableData>
               </tr>

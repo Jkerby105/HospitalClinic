@@ -4,5 +4,4 @@ public enum AppointmentType {
     WALK_IN,
     SCHEDULED,
     FOLLOW_UP,
-    EMERGENCY,
 }

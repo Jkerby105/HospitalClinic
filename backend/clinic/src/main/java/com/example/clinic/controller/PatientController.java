@@ -6,14 +6,20 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.example.clinic.model.Appointment;
+import com.example.clinic.model.AppointmentCreateRequest;
+import com.example.clinic.model.AppointmentRequestDTO;
+import com.example.clinic.model.AvailabilityResponse;
+import com.example.clinic.model.Doctor;
 import com.example.clinic.model.DoctorReport;
 import com.example.clinic.model.LoginRequest;
 import com.example.clinic.model.Patient;
+import com.example.clinic.service.DoctorService;
 import com.example.clinic.service.JwtService;
 import com.example.clinic.service.PatientService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +35,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/patient")
@@ -43,11 +50,19 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private DoctorService doctorService;
+
     // ------------------ Get Info ------------------ \\
 
     @GetMapping("/info/{id}")
     public ResponseEntity<Optional<Patient>> getPatientById(@PathVariable Long id) {
         return ResponseEntity.ok(patientService.getPatientById(id));
+    }
+
+    @GetMapping("/Doctors")
+    public List<Doctor> getActiveDoctors() {
+        return doctorService.getActiveDoctors();
     }
 
     // @GetMapping("/info/appointments/{id}")
@@ -65,9 +80,21 @@ public class PatientController {
     // ------------------ Create / Update ------------------ \\
 
     @PostMapping("/appointment")
-    public ResponseEntity<Appointment> saveAppointment(@RequestBody Appointment appointment) {
-        return ResponseEntity.ok(patientService.createAppointment(appointment));
+    public ResponseEntity<Appointment> saveAppointment(@RequestBody AppointmentRequestDTO appointment, Authentication authentication) {
+       System.out.println("Saving appointment: " + appointment);
+       String username = authentication.getName(); // usually email or username
+       
+       Patient patient = patientService.getPatientByUsername(username)
+                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found"));
+        
+        
+        System.out.println(appointment.toString());
+         System.out.println("Patient ID: " + patient.getId());
+        return ResponseEntity.ok(patientService.createAppointment(appointment,patient.getId()));
     }
+
+
+
 
     // ------------------ TODO: Login & Create Account ------------------ \\
     // @PostMapping("/login")
@@ -177,6 +204,24 @@ public class PatientController {
         // This part is a defensive measure and should theoretically be unreachable
         // because Spring Security would have already returned a 401.
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
+    }
+
+    @GetMapping("/availability")
+    public AvailabilityResponse getDoctorAvailability(
+            @RequestParam Long doctorId,
+            @RequestParam String dayOfWeek // e.g., "MONDAY"
+            
+    ) {
+        // System.out.println("--------------------------------------------------------------");
+        // System.out.println("--------------------------------------------------------------");
+        // System.out.println("--------------------------------------------------------------");
+
+        // System.out.println(dayOfWeek);
+        // System.out.println(doctorId);
+        // System.out.println("--------------------------------------------------------------");
+        // System.out.println("--------------------------------------------------------------");
+        // System.out.println("--------------------------------------------------------------");
+        return patientService.getAvailability(doctorId, DayOfWeek.valueOf(dayOfWeek.toUpperCase()));
     }
 
 }

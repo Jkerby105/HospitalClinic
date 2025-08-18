@@ -88,4 +88,9 @@ public class DoctorService {
 
     }
 
+
+        public List<Doctor> getActiveDoctors() {
+        return doctorRepo.findByIsActive(true);
+    }
+
 }
